@@ -1,0 +1,295 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block content %}
+
+	{% include "main/navbar.html" %}
+
+	<!-- Image Slider -->
+	<div id="slides" class="carousel slide" data-ride="carousel">
+		<ul class="carousel-indicators">
+			<li data-target="#slides" data-slide-to="0" class="active"></li>
+			<li data-target="#slides" data-slide-to="1"></li>
+			<li data-target="#slides" data-slide-to="2"></li>
+		</ul>
+		<div class="carousel-inner" style="max-height: 600px !important; ">
+			<div class="carousel-item active">
+				<img class="d-block w-100" src="{% static 'main/img/james-baltz-1387439-unsplash.jpg' %}" alt="Photo by James Baltz on Unsplash"> 	
+				<div class="carousel-caption d-none d-md-block">
+					<h1 class="display-4">We Bring the Cloud to your Farm</h1>
+				</div>
+			</div>
+			<div class="carousel-item">
+				<img class="d-block w-100" src="{% static 'main/img/alex-wigan-1238749-unsplash.jpg' %}" alt="Photo by Alex Wigan on Unsplash">
+				<div class="carousel-caption d-none d-md-block">
+					<h1 class="display-4">Always On<br>Always Monitoring</h1>
+				</div>
+			</div>
+			<div class="carousel-item">
+				<img class="d-block w-100" src="{% static 'main/img/peter-gonzalez-396308-unsplash.jpg' %}" alt="Photo by Peter Gonzalez on Unsplash" >
+				<div class="carousel-caption d-none d-md-block">
+					<h1 class="display-4">Tough,<br>Proven Technology</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+
+		<!--Two column Section -->
+	<div class="container-fluid padding">
+		<div class="row padding">
+			<div class="col-12 col-sm-6 col-md-6 col-lg-6">
+				<button type="button" class="btn btn-secondary btn-lg btn-block">LEARN MORE</button>
+			</div>
+			<div class="col-12 col-sm-6 col-md-6 col-lg-6">
+				<button type="button" class="btn btn-primary btn-lg btn-block">GETTING STARTED</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Three column section -->
+	<div class="container-fluid padding">
+		<div class="row text-center padding">
+			<div class="col-xs-12 col-sm-6 col-md-4">
+				<img class="sac-img" src="{% static 'main/img/iconfinder_common-logout-signout-exit-outline-stroke_763290.svg' %}">
+				<p>No committments<br>
+				   Cancel anytime</p>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-4">
+				<img class="sac-img" src="{% static 'main/img/iconfinder_SEO_share_2524418.svg' %}">
+				<p>Monitor anywhere<br>
+				   From any device</p>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-4">
+				<img class="sac-img" src="{% static 'main/img/iconfinder_price_tag_usd_172529.svg' %}">
+				<p>No hidden fees<br>
+				   Pay only for what you use</p>
+			</div>
+		</div>
+	</div>
+
+		<!--Two column Section -->
+	<div class="container-fluid padding">
+		<div class="row padding">
+			<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<img src="{% static 'main/img/FarmCellPhoneUse.jpg' %}" class="img-fluid">
+			</div>
+			<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<a href="#"><h4>Join Our Global Network of Smart Farms</h4></a>
+			</div>
+		</div>
+		<div class="row padding">
+			<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<img src="{% static 'main/img/ACAPMag-tractor.jpg' %}" class="img-fluid">
+			</div>
+			<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<a href="#"><h4>Boost Productivity And Harvest Yields</h4></a>
+			</div>
+		</div>
+		<div class="row padding">
+			<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<img src="{% static 'main/img/154568_00_2x.jpg' %}" class="img-fluid">
+			</div>
+			<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<a href="#"><h4>Protect What You Built</h4></a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Jumbotron -->
+	<!-- <div class="container-fluid">
+		<div class="row jumbotron">
+			<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10">
+				<p class="lead">
+					Big descriptive paragraph
+				</p>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
+				<a href="#"><button type="button" class="btn btn-outline-secondary btn-lg">Web Hosting</button></a>
+			</div>
+		</div>
+	</div> -->
+
+	<!-- Welcome Section -->
+	<!-- <div class="container-fluid padding">
+		<div class="row welcome text-center">
+			<div class="col-12">
+				<h1 class="display-4">Build with ease.</h1>
+			</div>
+			<hr>
+			<div class="col-12">
+				<p class="lead">Weclome to my Bootstrap 4 website tutorial! there is a whole lot to say here just to say something cool but i don't know what to say so i say this</p>
+			</div>
+		</div>
+	</div> -->
+
+	<!-- Three column section -->
+	<!-- <div class="container-fluid padding">
+		<div class="row text-center padding">
+			<div class="col-xs-12 col-sm-6 col-md-4">
+				<i class="fas fa-code"></i>
+				<h3>HTML5</h3>
+				<p>Built with fancy HTML5 text</p>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-4">
+				<i class="fas fa-bold"></i>
+				<h3>HTML5</h3>
+				<p>Built with the latest version of Bootsrap 4</p>
+			</div>
+			<div class="col-sm-12 col-md-4">
+				<i class="fab fa-css3"></i>
+				<h3>HTML5</h3>
+				<p>Built with the latest version of CSSS3</p>
+			</div>
+		</div>
+		<hr class="my-4">
+	</div> -->
+
+
+
+	<!-- Fixed background -->
+	<!-- <hr class="my-4">
+	<figure>
+		<div class="fixed-wrap">
+			<div id="fixed">
+
+			</div>
+		</div>
+	</figure> -->
+
+	<!-- Emoji Section -->
+	<!-- <button class="fun" data-toggle="collapse" data-target="#emoji">click for fun
+	</button>
+
+	<div id="emoji" class="collapse">
+		<div class="container-fluid padding">
+			<div class="row text-center">
+				<div class="col-sm-6 col-md-3">
+					<img class="gif" src="{% static 'main/img/gif/panda.gif' %}">
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<img class="gif" src="{% static 'main/img/gif/poo.gif' %}">
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<img class="gif" src="{% static 'main/img/gif/unicorn.gif' %}">
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<img class="gif" src="{% static 'main/img/gif/chicken.gif' %}">
+				</div>
+
+			</div>
+		</div>
+	</div> -->
+
+	<!-- Meet the team -->
+	<!-- <div class="container-fluid padding">
+		<div class="row welcome text-center">
+			<div class="col-12">
+				<h1 class="display-4">Meet the Team</h1>
+			</div>
+			<hr>
+		</div>
+	</div> -->
+
+	<!-- <div class="container-fluid padding">
+		<div class="row padding">
+			<div class="col-md-4">
+				<div class="card">
+					<img class="card-img-top" src="{% static 'main/img/team1.png' %}">
+					<div class="card-body">
+						<h4 class="card-title">John Doe</h4>
+						<p class="card-text">This is a description of John Doe</p>
+						<a href="#" class="btn btn-outline-secondary">See Profile</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card">
+					<img class="card-img-top" src="{% static 'main/img/team2.png' %}">
+					<div class="card-body">
+						<h4 class="card-title">Mary Joe</h4>
+						<p class="card-text">This is a description of Mary Joe</p>
+						<a href="#" class="btn btn-outline-secondary">See Profile</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card">
+					<img class="card-img-top" src="{% static 'main/img/team3.png' %}">
+					<div class="card-body">
+						<h4 class="card-title">David Montes</h4>
+						<p class="card-text">This is a description of David Montes</p>
+						<a href="#" class="btn btn-outline-secondary">See Profile</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+
+	<!--Two column Section -->
+	<!-- <div class="container-fluid padding">
+		<div class="row padding">
+			<div class="col-md-12 col-lg-6">
+				<h2>Our Philosophy</h2>
+				<p>Some paragraph of information that is worth of a website that is for my class at SJSU in 2019 for cloud based technologies with Dr. Gao and I have a team of others who are working with me on SmartAgCloud</p>
+				<p>Some paragraph of information</p>
+				<br>
+			</div>
+			<div class="col-lg-6">
+				<img src="{% static 'main/img/bootstrap2.png' %}" class="img-fluid">
+			</div>
+		</div>
+		<hr class="my-4">
+	</div> -->
+
+	<!--Connect -->	
+	<!-- <div class="container-fluid padding">
+		<div class="row text-center padding">
+			<div class="col-12">
+				<h2>Connect</h2>
+			</div>
+			<div class="col-12 social padding">
+				<a href="#"><i class="fab fa-facebook"></i></a>
+				<a href="#"><i class="fab fa-twitter"></i></a>
+				<a href="#"><i class="fab fa-google-plus-g"></i></a>
+				<a href="#"><i class="fab fa-instagram"></i></a>
+				<a href="#"><i class="fab fa-youtube"></i></a>
+			</div>
+		</div>
+	</div> -->
+
+	<!-- Footer -->
+	<footer>
+	<div class="container-fluid">
+		<div class="row text-center">
+			<div class="col-12 text-left">
+				<h5>Questions? Call 1-800-SEN-SORS</h5>
+			</div>
+			<div class="col-6 col-sm-4 col-md-3 text-left">
+				<a href="#"><p>FAQ</p></a>
+				<a href="#"><p>Investor Relations</p></a>
+				<a href="#"><p>Ways to Watch</p></a>
+				<a href="#"><p>Corporate Information</p></a>
+			</div>
+			<div class="col-6 col-sm-4 col-md-3 text-left">
+				<a href="#"><p>Help Center</p></a>
+				<a href="#"><p>Jobs</p></a>
+				<a href="#"><p>Terms of Use</p></a>
+				<a href="#"><p>Contact Us</p></a>
+			</div>
+			<div class="col-6 col-sm-4 col-md-3 text-left">
+				<a href="#"><p>Account</p></a>
+				<a href="#"><p>Redeem Gift Cards</p></a>
+				<a href="#"><p>Privacy</p></a>
+				<a href="#"><p>Speed Test</p></a>
+			</div>
+			<div class="col-6 col-sm-4 col-md-3 text-left">
+				<a href="#"><p>Media Center</p></a>
+				<a href="#"><p>Buy Gift Cards</p></a>
+				<a href="#"><p>Cookie Preferences</p></a>
+				<a href="#"><p>Legal Notices</p></a>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+

@@ -1,0 +1,82 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block content %}
+
+	{% include "main/navbar.html" %}
+
+	<H3>My Google Map</H3>
+
+	<div id="map">
+	</div>
+
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkLJ7SLGqjDIyeLjRPBmG7C0KTXpsF6xY&callback=initMap"async defer>
+	</script>
+
+	<script type="text/javascript">
+		function initMap()
+		{
+			// Map Options
+			var options = {
+				zoom: 8,
+				center: {
+					lat: 37.3352, lng: -121.8811
+				}
+			}
+
+			// New Map
+			var map1 = new google.maps.Map(document.getElementById('map'), options);
+
+			google.maps.event.addListener(map1, 'click',
+				function(event) {
+					addMarker({coords: event.latLng});
+			});
+
+			var markers = [
+				{
+					coords: { lat: 37.415229, lng: -122.06265},
+					iconImage: "{% static 'main/img/clusterNode.png' %}",
+					content: '<h1>Cluster 1</h1>'
+				},
+				{
+					coords: { lat: 38.5382, lng: -121.7617},
+					iconImage: "{% static 'main/img/clusterNode.png' %}",
+					content: '<h1>Cluster 2</h1>'
+				}
+			];
+
+			for (var i = 0; i < markers.length; i++)
+			{
+				addMarker(markers[i]);
+			}
+
+
+			function addMarker(props)
+			{
+				var marker = new google.maps.Marker({
+					position: props.coords,
+					map: map1,
+					icon: props.iconImage,
+				});
+
+				var infoWindow = new google.maps.InfoWindow({
+					content: props.content
+				});
+
+				marker.addListener('click', function() {
+					infoWindow.open(map1, marker);
+				});
+			}
+		}
+	</script>
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+

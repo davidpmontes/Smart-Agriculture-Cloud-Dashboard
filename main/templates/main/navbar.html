@@ -1,0 +1,37 @@
+{% load static %}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="{% url 'main-home'%}">
+			<img src="{% static 'main/img/future-farming-technology-agriculture-science-512.png' %}">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<ul class="navbar-nav ml-auto">
+				{% if user.is_authenticated %}
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'main-map'%}">My Network</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'main-graphs'%}">My Graphs</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'profile' %}">
+							<img class="rounded-circle smartagcloud-profile-img" src="{{ user.profile.image.url }}">Account
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'logout' %}">Sign Out</a>
+					</li>
+				{% else %}
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'login' %}">Sign In</a>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+</nav>
