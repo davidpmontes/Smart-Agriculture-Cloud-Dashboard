@@ -1,0 +1,144 @@
+{% load static %}
+
+<script type="text/javascript">
+	displayInfo = {
+		"ClusterNodes": [{
+			"ID": 123,
+			"Status": "Active",
+			"Lat": 35.51,
+			"Lon": -120.51,
+			"SensorNodes": [{
+					"ID": 1,
+					"Status": "Active",
+					"Lat": 35.52,
+					"Lon": -120.51
+				}, {
+					"ID": 2,
+					"Status": "Active",
+					"Lat": 35.51,
+					"Lon": -120.5
+				},
+				{
+					"ID": 3,
+					"Status": "InActive",
+					"Lat": 35.5,
+					"Lon": -120.5
+				}
+			]
+		}, {
+			"ID": 456,
+			"Status": "Active",
+			"Lat": 35.42,
+			"Lon": -120.42,
+			"SensorNodes": [{
+					"ID": 4,
+					"Status": "Active",
+					"Lat": 35.42,
+					"Lon": -120.4
+				}, {
+					"ID": 5,
+					"Status": "Active",
+					"Lat": 35.42,
+					"Lon": -120.44
+				},
+				{
+					"ID": 6,
+					"Status": "Active",
+					"Lat": 35.41,
+					"Lon": -120.42
+				}
+			]
+		}]
+	}
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkLJ7SLGqjDIyeLjRPBmG7C0KTXpsF6xY&callback=initMap">
+</script>
+
+<script type="text/javascript">
+	function initMap()
+	{
+		loadData();
+		var mapOptions = {
+			zoom: 12,
+			center: {
+				lat: 35.51, lng: -120.51
+			}
+		}
+
+		// New Map
+		var map1 = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+		google.maps.event.addListener(map1, 'click',
+			function(event) {
+				addMarker({coords: event.latLng});
+		});
+
+		for (var i = 0; i < displayInfo.ClusterNodes.length; i++)
+		{
+			for (var j = 0; j < displayInfo.ClusterNodes[i].SensorNodes.length; j++)
+			{
+				AddNode(displayInfo.ClusterNodes[i].SensorNodes[j]);
+				DrawConnection(displayInfo.ClusterNodes[i], displayInfo.ClusterNodes[i].SensorNodes[j]);
+			}
+			AddNode(displayInfo.ClusterNodes[i]);
+		}
+
+		function AddNode(node)
+		{
+			var marker = new google.maps.Marker({
+				position: { lat: node.Lat, lng: node.Lon },
+				map: map1,
+				icon: GetIcon(),
+			});
+
+			var infoWindow = new google.maps.InfoWindow({
+				content: '<h3>' + node.ID + '</h3>'
+			});
+
+			marker.addListener('click', function() {
+				UpdateNodeInspector();
+			});
+
+			marker.addListener('mouseover', function() {
+				infoWindow.open(map1, marker);
+			});
+
+			marker.addListener('mouseout', function() {
+				infoWindow.close();
+			});
+
+			function GetIcon()
+			{
+				if (node.Status == "Active")
+					url = "{% static 'main/img/GreenNode.png' %}";
+
+				if (node.Status == "InActive")
+					url = "{% static 'main/img/RedNode.png' %}";
+
+		      	var icon = {
+					url: url,
+					size: new google.maps.Size(32, 32),
+					origin: new google.maps.Point(0, 0),
+					anchor: new google.maps.Point(16, 16)
+		        };
+
+		        return icon;
+			}
+		}
+
+		function DrawConnection(Node1, Node2)
+		{
+			var flightPath = new google.maps.Polyline({
+				path: [{lat: Node1.Lat, lng: Node1.Lon},
+					   {lat: Node2.Lat, lng: Node2.Lon}],
+				geodesic: true,
+				strokeColor: '#FF0000',
+				strokeOpacity: 1.0,
+				strokeWeight: 2
+			});
+
+			flightPath.setMap(map1);
+		}
+	}
+</script>

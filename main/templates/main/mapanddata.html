@@ -1,0 +1,95 @@
+{% load static %}
+
+<div class="container-fluid padding">
+	<div class="row padding">
+		<div class="col-12 col-sm-6 col-md-6 col-lg-6">
+			<div class="dropdown">
+				<h1>
+					{% if id %}
+						{{ id }}
+					{% endif %}
+				</h1>
+				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Choose a map
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					{% for farm in usersFarms %}
+						<a id="FarmList" class="dropdown-item" href="{% url 'main-home' id=farm %}">{{ farm }}</a>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<nav>
+		<div class="nav nav-tabs nav-justified" id="nav-tab" role="tablist">
+			<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">
+				Map
+			</a>
+			<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">
+				Data
+			</a>
+		</div>
+	</nav>
+
+	<div class="tab-content" id="nav-tabContent">
+		<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+			<div class="container-fluid padding">
+				<div class="row padding">
+					<div id="NodeInspector" class="col-12 col-sm-12 col-md-12 col-lg-4">
+					</div>
+					<div id="map" class="col-12 col-sm-12 col-md-12 col-lg-8">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+			<div class="btn-group" role="group" aria-label="Basic example">
+				<button type="button" class="btn btn-secondary" id="Year">Year</button>
+				<button type="button" class="btn btn-secondary" id="Month">Month</button>
+				<button type="button" class="btn btn-secondary" id="Week">Week</button>
+				<button type="button" class="btn btn-secondary" id="Date">Date</button>
+				<button type="button" class="btn btn-secondary" id="Hour">Hour</button>
+			</div>
+			<div id="data">
+			</div>
+		</div>
+	</div>
+</div>
+
+{% include "main/justnodeinspector.html" %}
+{% include "main/justdata.html" %}
+{% include "main/justmap.html" %}
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#Year").click(function(){
+			console.log("optionYear clicked");
+			loadData();
+		});		
+	});
+
+	$(document).ready(function() {
+		$("#Month").click(function(){
+			console.log("optionMonth clicked");
+		});		
+	});
+
+	$(document).ready(function() {
+		$("#Week").click(function(){
+			console.log("optionWeek clicked");
+		});		
+	});
+
+	$(document).ready(function() {
+		$("#Date").click(function(){
+			console.log("optionDate clicked");
+		});		
+	});
+
+	$(document).ready(function() {
+		$("#Hour").click(function(){
+			console.log("optionHour clicked");
+		});		
+	});
+</script>

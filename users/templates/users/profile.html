@@ -1,7 +1,10 @@
 {% extends "main/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block content %}
+	{% include "main/navbar.html" %}
+
 	<div class="content-section">
 		<div class="media">
 			{% if user.profile.image %}
