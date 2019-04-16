@@ -1,4 +1,6 @@
+awsebcli==3.15.0
 Django==2.1.7
 django-crispy-forms==1.7.2
 Pillow==5.4.1
 pytz==2018.9
+requests==2.20.1
