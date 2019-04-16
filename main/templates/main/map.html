@@ -5,15 +5,99 @@
 
 	{% include "main/navbar.html" %}
 
-	<H3>My Google Map</H3>
+	<H3>My Google Maps</H3>
 
 	<div id="map">
 	</div>
 
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkLJ7SLGqjDIyeLjRPBmG7C0KTXpsF6xY&callback=initMap"async defer>
+	<script async defer
+		type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkLJ7SLGqjDIyeLjRPBmG7C0KTXpsF6xY&callback=initMap">
 	</script>
 
 	<script type="text/javascript">
+
+		// Parameters: Username
+		// for example: GetNetworksByUser("Sijia96") 
+		// returns: list of the names of the farms common name and ID
+		// {
+		// 	[
+		// 		{
+		// 			"Name": "Farm1",
+		// 			"Type": "Pickles",
+		// 			"ID": 123,
+		// 			"Lat": 35.4,
+		// 			"Lon": -120.5
+		// 		},
+		// 		{
+		// 			"Name": "Farm2",
+		// 			"Type": "Apples",
+		// 			"ID": 234
+		// 			"Lat": 35.4,
+		// 			"Lon": -120.4
+		// 		}
+		// 	]
+		// }
+
+		// Parameters: FarmID
+		// for example: GetClusterNodesByFarm(123)
+		// returns a list of cluster nodes IDS and locations
+		// {
+		// 	[
+		// 		{
+		// 			"ID": 1231,
+		// 			"Lat": 35.4,
+		// 			"Lon": -120.4
+		// 		},
+		// 		{
+		// 			"ID": 3238,
+		// 			"Lat": 36.4,
+		// 			"Lon": -110.4
+		// 		},
+		// 		{
+		// 			"ID": 9232,
+		// 			"Lat": 45.4,
+		// 			"Lon": -150.4
+		// 		},
+		// 	]
+		// }
+
+		// Parameters: ClusterID
+		// GetSmartNodesByCluster(1231)
+		// returns a list of the smart nodes IDS and locations
+
+		// {
+		// 	[
+		// 		{
+		// 			"ID": 15,
+		// 			"Lat": 35.4,
+		// 			"Lon": -120.4,
+		// 		},
+		// 		{
+		// 			"ID": 16,
+		// 			"Lat": 34.4,
+		// 			"Lon": -122.4,
+		// 		}
+		// 	]
+		// }
+
+		// Parameters: SmartNodeID
+		// GetSensorsBySmartNode(15)
+		// returns a list of Sensors
+		// {
+		// 	[
+		// 		{
+		// 			"ID": 19378641298736,
+		// 			"Status": "UP",
+		// 			"Type": "Water"
+		// 		},
+		// 		{
+		// 			"ID": 32499827342344
+		// 			"Status": "Down"
+		// 			"Type": "Water"
+		// 		}
+		// 	]
+		// }
+
 		function initMap()
 		{
 			// Map Options
@@ -35,12 +119,12 @@
 			var markers = [
 				{
 					coords: { lat: 37.415229, lng: -122.06265},
-					iconImage: "{% static 'main/img/clusterNode.png' %}",
+					iconImage: "{% static 'main/img/GreenNode.png' %}",
 					content: '<h1>Cluster 1</h1>'
 				},
 				{
 					coords: { lat: 38.5382, lng: -121.7617},
-					iconImage: "{% static 'main/img/clusterNode.png' %}",
+					iconImage: "{% static 'main/img/RedNode.png' %}",
 					content: '<h1>Cluster 2</h1>'
 				}
 			];
