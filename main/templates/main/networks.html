@@ -1,0 +1,11 @@
+{% load static %}
+
+<a class="nav-link" href="{% url 'createNetwork' %}">
+	<button type="button" class="btn btn-primary btn-lg btn-block">Create Network</button>
+</a>
+
+<div id="map">
+</div>
+
+{% include "main/networksmap.html" %}
+

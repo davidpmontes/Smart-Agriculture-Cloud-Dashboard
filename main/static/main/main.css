@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
 
+.container {
+  margin-top: 20px;
+  padding-top: 20px;
+  background-color: white;
+}
+
+.sac-navbar-logo {
+  width: auto;
+}
+
 .sac-img {
   height: 75px;
 }
@@ -23,16 +33,18 @@ html, body {
   width: 100%;
   font-family: 'Poppins', sans-serif;
   color: darkgray;
+  background-color: #dee5f2;
 }
 
 .navbar-brand img
 {
-  width: 100px;
-  height: 100px;
+  width: auto;
+  height: 30px;
 }
 
 .navbar {
-  padding: .8rem;
+  padding: .2rem;
+  min-height:30px !important;
 }
 
 .navbar-nav li {

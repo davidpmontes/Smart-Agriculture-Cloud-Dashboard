@@ -1,0 +1,90 @@
+{% load static %}
+
+<script type="text/javascript">
+	displayInfo = {
+		"Networks": [{
+			"ID": 123,
+			"Name": "San Jose",
+			"Lat": 35.51,
+			"Lon": -120.51
+		}, {
+			"ID": 456,
+			"Name": "New York",
+			"Lat": 40.7128,
+			"Lon": -74.006
+		},{
+			"ID": 789,
+			"Name": "Washington",
+			"Lat": 47.7511,
+			"Lon": -120.7401
+		}]
+	}
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkLJ7SLGqjDIyeLjRPBmG7C0KTXpsF6xY&callback=initMap">
+</script>
+
+<script type="text/javascript">
+	function initMap()
+	{
+		var mapOptions = {
+			zoom: 4,
+			center: {
+				lat: 40.4925, lng: -96.9018
+			}
+		}
+
+		// New Map
+		var map1 = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+		google.maps.event.addListener(map1, 'click',
+			function(event) {
+				addMarker({coords: event.latLng});
+		});
+
+		for (var i = 0; i < displayInfo.Networks.length; i++)
+		{
+			AddNode(displayInfo.Networks[i]);
+		}
+
+		function AddNode(node)
+		{
+			var marker = new google.maps.Marker({
+				position: { lat: node.Lat, lng: node.Lon },
+				map: map1,
+				icon: GetIcon(),
+			});
+
+			var infoWindow = new google.maps.InfoWindow({
+				content: '<h3>' + node.Name + '</h3>'
+			});
+
+			marker.addListener('click', function() {
+				UpdateNodeInspector();
+			});
+
+			marker.addListener('mouseover', function() {
+				infoWindow.open(map1, marker);
+			});
+
+			marker.addListener('mouseout', function() {
+				infoWindow.close();
+			});
+
+			function GetIcon()
+			{
+				url = "{% static 'main/img/network.png' %}";
+
+		      	var icon = {
+					url: url,
+					size: new google.maps.Size(128, 128),
+					scaledSize: new google.maps.Size(64, 64),
+					origin: new google.maps.Point(0, 0),
+					anchor: new google.maps.Point(32, 32)
+		        };
+
+		        return icon;
+			}
+		}
+	}
+</script>

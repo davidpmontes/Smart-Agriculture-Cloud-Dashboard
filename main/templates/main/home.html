@@ -3,10 +3,12 @@
 
 {% block content %}
 
-	{% include "main/navbar.html" %}
-
 	{% if user.is_authenticated %}
-		{% include "main/mapanddata.html" %}
+		{% if user.is_superuser %}
+			{% include "main/networks.html" %}
+		{% else %}
+			{% include "main/mapanddata.html" %}
+		{% endif %}
 	{% else %}
 		{% include "main/notloggedinhome.html" %}
 	{% endif %}
