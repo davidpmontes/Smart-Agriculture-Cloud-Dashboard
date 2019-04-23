@@ -1,13 +1,15 @@
 {% extends "main/base.html" %}
 {% load static %}
 
+{{ result }}
+
 {% block content %}
 
 	{% if user.is_authenticated %}
 		{% if user.is_superuser %}
-			{% include "main/networks.html" %}
+			{% include "main/adminhome.html" %}
 		{% else %}
-			{% include "main/mapanddata.html" %}
+			{% include "main/farmerhome.html" %}
 		{% endif %}
 	{% else %}
 		{% include "main/notloggedinhome.html" %}

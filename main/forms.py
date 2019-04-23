@@ -7,3 +7,8 @@ class NetworkCreationForm(forms.Form):
 
 	class Meta:
 		fields = ['your_name']
+
+class NetworkDeletionForm(forms.Form):
+
+	class Meta:
+		fields = ['your_name']

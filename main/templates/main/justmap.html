@@ -1,64 +1,14 @@
 {% load static %}
 
-<script type="text/javascript">
-	displayInfo = {
-		"ClusterNodes": [{
-			"ID": 123,
-			"Status": "Active",
-			"Lat": 35.51,
-			"Lon": -120.51,
-			"SensorNodes": [{
-					"ID": 1,
-					"Status": "Active",
-					"Lat": 35.52,
-					"Lon": -120.51
-				}, {
-					"ID": 2,
-					"Status": "Active",
-					"Lat": 35.51,
-					"Lon": -120.5
-				},
-				{
-					"ID": 3,
-					"Status": "InActive",
-					"Lat": 35.5,
-					"Lon": -120.5
-				}
-			]
-		}, {
-			"ID": 456,
-			"Status": "Active",
-			"Lat": 35.42,
-			"Lon": -120.42,
-			"SensorNodes": [{
-					"ID": 4,
-					"Status": "Active",
-					"Lat": 35.42,
-					"Lon": -120.4
-				}, {
-					"ID": 5,
-					"Status": "Active",
-					"Lat": 35.42,
-					"Lon": -120.44
-				},
-				{
-					"ID": 6,
-					"Status": "Active",
-					"Lat": 35.41,
-					"Lon": -120.42
-				}
-			]
-		}]
-	}
-</script>
-
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkLJ7SLGqjDIyeLjRPBmG7C0KTXpsF6xY&callback=initMap">
 </script>
 
 <script type="text/javascript">
 	function initMap()
 	{
-		loadData();
+		displayInfo = {{ displayInfo|safe }};
+
+		//loadData();
 		var mapOptions = {
 			zoom: 12,
 			center: {

@@ -12,6 +12,15 @@
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto">
 				{% if user.is_authenticated %}
+					{% if user.is_superuser %}
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'main-home' %}">Status</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'main-allnetworks' %}">Map</a>
+					</li>
+					{% endif %}
+
 					<li class="nav-item">
 						<a class="nav-link" href="{% url 'profile' %}">
 							<img class="rounded-circle" src="{{ user.profile.image.url }}">

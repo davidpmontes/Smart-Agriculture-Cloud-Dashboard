@@ -1,0 +1,41 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="card">
+  <div class="card-header bg-primary text-white">
+    "{{ networkname }}" Network
+  </div>
+  <div class="card-body">
+    <div id="map">
+    </div>
+
+    <div class="container">
+        <div class="row">
+          <div class="col-sm">
+              <a class="nav-link" href="{% url 'createNetwork' %}">
+                <button type="button" class="btn btn-primary btn-lg btn-block">Create New Farm</button>
+              </a>
+            </div>
+          <div class="col-sm">
+            <a class="nav-link" href="{% url 'deleteNetwork' %}">
+              <button type="button" class="btn btn-danger btn-lg btn-block">Delete Network</button>
+            </a>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+{% include "main/allfarmsmap.html" %}
+
+
+
+
+
+
+{% endblock content %}
+

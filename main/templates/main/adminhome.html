@@ -1,0 +1,97 @@
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+			<div class="card">
+				<div class="card-header bg-primary text-white">
+					Sensors Status
+				</div>
+				<div class="card-body">
+					<div id="chart_div1"></div></li>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+			<div class="card">
+				<div class="card-header bg-success text-white">
+					Farms Status
+				</div>
+				<div class="card-body">
+						<div id="chart_div2"></div></li>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+			<div class="card">
+				<div class="card-header bg-info text-white">
+					Networks Status
+				</div>
+				<div class="card-body">
+					<div id="chart_div3"></div></li>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+	google.charts.load("current", {packages:["corechart"]});
+	google.charts.setOnLoadCallback(drawChart);
+	function drawChart() {
+	var data = google.visualization.arrayToDataTable([
+		['Task', 'Hours per Day'],
+		['Up Sensors',     489],
+		['Down Sensors',      5]
+	]);
+
+	var options = {
+		colors: ['green', 'red'],
+		pieHole: 0.4,
+	};
+
+	var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
+	chart.draw(data, options);
+	}
+</script>
+
+<script type="text/javascript">
+	google.charts.load("current", {packages:["corechart"]});
+	google.charts.setOnLoadCallback(drawChart);
+	function drawChart() {
+	var data = google.visualization.arrayToDataTable([
+		['Task', 'Hours per Day'],
+		['Up Farms',     94],
+		['Down Farms',      2]
+	]);
+
+	var options = {
+		colors: ['green', 'red'],
+		pieHole: 0.4,
+	};
+
+	var chart = new google.visualization.PieChart(document.getElementById('chart_div2'));
+	chart.draw(data, options);
+	}
+</script>
+
+<script type="text/javascript">
+	google.charts.load("current", {packages:["corechart"]});
+	google.charts.setOnLoadCallback(drawChart);
+	function drawChart() {
+	var data = google.visualization.arrayToDataTable([
+		['Task', 'Hours per Day'],
+		['Up Networks',     6],
+		['Down Networks',      1]
+	]);
+
+	var options = {
+		colors: ['green', 'red'],
+		pieHole: 0.4,
+	};
+
+	var chart = new google.visualization.PieChart(document.getElementById('chart_div3'));
+	chart.draw(data, options);
+	}
+</script>
+

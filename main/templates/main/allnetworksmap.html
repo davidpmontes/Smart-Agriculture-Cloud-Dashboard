@@ -1,0 +1,86 @@
+{% load static %}
+
+<script type="text/javascript">
+	apiInfo = {
+		"Networks": [{
+			"ID": 123,
+			"Name": "San Jose",
+			"Lat": 35.51,
+			"Lon": -120.51
+		}, {
+			"ID": 456,
+			"Name": "New York",
+			"Lat": 40.7128,
+			"Lon": -74.006
+		},{
+			"ID": 789,
+			"Name": "Washington",
+			"Lat": 47.7511,
+			"Lon": -120.7401
+		}]
+	}
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkLJ7SLGqjDIyeLjRPBmG7C0KTXpsF6xY&callback=initMap">
+</script>
+
+<script type="text/javascript">
+	function goToMap(name)
+	{
+		location.href="{% url 'main-allfarms' networkname=12345 %}".replace("12345", name);
+	}
+
+	function initMap()
+	{
+		var mapOptions = {
+			zoom: 4,
+			center: {
+				lat: 40.4925, lng: -96.9018
+			}
+		}
+
+		var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+		google.maps.event.addListener(map, 'click',
+			function(event) {
+				addMarker({coords: event.latLng});
+		});
+
+		for (var i = 0; i < apiInfo.Networks.length; i++)
+		{
+			AddNode(apiInfo.Networks[i]);
+		}
+
+		function AddNode(network)
+		{
+			var marker = new google.maps.Marker({
+				position: { lat: network.Lat, lng: network.Lon },
+				map: map,
+				icon: GetIcon(network),
+			});
+
+			var infoWindow = new google.maps.InfoWindow({
+				content: '<h3>' + network.Name + '</h3>'
+			});
+
+			marker.addListener('click', function() {
+				goToMap(network.Name);
+			});
+		}
+
+		function GetIcon(network)
+		{
+			url = "{% static 'main/img/network.png' %}";
+			
+	      	var icon = {
+				url: url,
+				size: new google.maps.Size(128, 128),
+				scaledSize: new google.maps.Size(64, 64),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(32, 32)
+	        };
+
+	        return icon;
+		}
+	}
+</script>

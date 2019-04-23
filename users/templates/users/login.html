@@ -3,27 +3,34 @@
 {% load static %}
 
 {% block content %}
-	<div class="content-section text-center">
-		<form class="form-signin" method="POST">
-			<a href="{% url 'main-home'%}">
-				<img src="{% static 'main/img/future-farming-technology-agriculture-science-512.png' %}" alt="" width="72" height = "72">
-			</a>
-
-			{% csrf_token %}
-			<fieldset class="form-group">
-				<legend class="border-bottom mb-4">Please Sign In</legend>
-				{{ form | crispy }}
-			</fieldset>
-			
-			<div class="form-group">
-				<button class="btn btn-outline-info" type="submit">Sign In</button>
+	<div class="card">
+		<div class="card-header bg-light text-light">
+			*
+		</div>
+		<div class="card-body">
+			<div class="content-section text-center">
+				<form class="form-signin" method="POST">
+					<a href="{% url 'main-home'%}">
+						<img src="{% static 'main/img/future-farming-technology-agriculture-science-512.png' %}" alt="" width="72" height = "72">
+						<h3>Please Sign In</h3>
+					</a>
+		
+					{% csrf_token %}
+					<fieldset class="form-group">
+						{{ form | crispy }}
+					</fieldset>
+					
+					<div class="form-group">
+						<button class="btn btn-outline-info" type="submit">Sign In</button>
+					</div>
+				</form>
+				<div class="border-top pt-3">
+					<small class="text-muted">
+						Need An Account?
+						<a class="ml-2" href="{% url 'register' %}">Sign Up Now</a>
+					</small>
+				</div>
 			</div>
-		</form>
-		<div class="border-top pt-3">
-			<small class="text-muted">
-				Need An Account?
-				<a class="ml-2" href="{% url 'register' %}">Sign Up Now</a>
-			</small>
 		</div>
 	</div>
 {% endblock content %}

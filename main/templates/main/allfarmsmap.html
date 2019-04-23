@@ -2,21 +2,24 @@
 
 <script type="text/javascript">
 	displayInfo = {
-		"Networks": [{
+		"Farms": [{
 			"ID": 123,
-			"Name": "San Jose",
-			"Lat": 35.51,
-			"Lon": -120.51
+			"Name": "MilpitasFarm",
+		    "Type": "Apple",
+			"Lat": 37.431315,
+			"Lon": -121.945802
 		}, {
 			"ID": 456,
-			"Name": "New York",
-			"Lat": 40.7128,
-			"Lon": -74.006
-		},{
+			"Name": "WestFarm",
+		  	"Type": "Strawberry",
+			"Lat": 37.302925,
+			"Lon": -122.019987
+		}, {
 			"ID": 789,
-			"Name": "Washington",
-			"Lat": 47.7511,
-			"Lon": -120.7401
+			"Name": "AndersonLakeFarm",
+		  	"Type": "Watermelon",
+			"Lat": 37.191506,
+			"Lon": -121.609035
 		}]
 	}
 </script>
@@ -25,12 +28,17 @@
 </script>
 
 <script type="text/javascript">
+	function goToMapDetails(name)
+	{
+		location.href="{% url 'main-adminmapdetails' farmname=12345 %}".replace("12345", name);
+	}
+
 	function initMap()
 	{
 		var mapOptions = {
-			zoom: 4,
+			zoom: 10,
 			center: {
-				lat: 40.4925, lng: -96.9018
+				lat: 37.3382, lng: -121.8863
 			}
 		}
 
@@ -42,45 +50,37 @@
 				addMarker({coords: event.latLng});
 		});
 
-		for (var i = 0; i < displayInfo.Networks.length; i++)
+		for (var i = 0; i < displayInfo.Farms.length; i++)
 		{
-			AddNode(displayInfo.Networks[i]);
+			AddNode(displayInfo.Farms[i]);
 		}
 
-		function AddNode(node)
+		function AddNode(farm)
 		{
 			var marker = new google.maps.Marker({
-				position: { lat: node.Lat, lng: node.Lon },
+				position: { lat: farm.Lat, lng: farm.Lon },
 				map: map1,
 				icon: GetIcon(),
 			});
 
 			var infoWindow = new google.maps.InfoWindow({
-				content: '<h3>' + node.Name + '</h3>'
+				content: '<h3>' + farm.Name + '</h3>'
 			});
 
 			marker.addListener('click', function() {
-				UpdateNodeInspector();
-			});
-
-			marker.addListener('mouseover', function() {
-				infoWindow.open(map1, marker);
-			});
-
-			marker.addListener('mouseout', function() {
-				infoWindow.close();
+				goToMapDetails(farm.Name);
 			});
 
 			function GetIcon()
 			{
-				url = "{% static 'main/img/network.png' %}";
+				url = "{% static 'main/img/' %}" + farm.Type + ".png"
 
 		      	var icon = {
 					url: url,
 					size: new google.maps.Size(128, 128),
-					scaledSize: new google.maps.Size(64, 64),
+					scaledSize: new google.maps.Size(48, 48),
 					origin: new google.maps.Point(0, 0),
-					anchor: new google.maps.Point(32, 32)
+					anchor: new google.maps.Point(24, 24)
 		        };
 
 		        return icon;
