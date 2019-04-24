@@ -1,12 +1,49 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from requests.exceptions import ConnectionError
-from . forms import NetworkCreationForm, NetworkDeletionForm
+from . forms import NetworkCreationForm, NetworkDeletionForm, FarmEditForm, SensorNodeForm, ClusterNodeForm
 import requests
 
-def adminmapdetails(request, farmname=''):
+def editFarm(request, farmid=''):
+	if request.method == 'POST':
+		form = FarmEditForm(request.POST)
+		if form.is_valid():
+			messages.success(request, f'Your new Sensor Node has been created!')
+			return redirect('main-home')
+	else:
+		form = FarmEditForm()
+
+	return render(request, 'main/editFarm.html', {'form': form, 'farmid': farmid})
+
+def addSensorNode(request, farmid=''):
+	if request.method == 'POST':
+		form = SensorNodeForm(request.POST)
+		if form.is_valid():
+			messages.success(request, f'Your new Sensor Node has been created!')
+			return redirect('main-home')
+	else:
+		form = SensorNodeForm()
+
+	return render(request, 'main/addSensorNode.html', {'form': form, 'farmid': farmid})
+
+def addClusterNode(request, farmid=''):
+	if request.method == 'POST':
+		form = ClusterNodeForm(request.POST)
+		if form.is_valid():
+			messages.success(request, f'Your new Cluster Node has been created!')
+			return redirect('main-home')
+	else:
+		form = ClusterNodeForm()
+
+	return render(request, 'main/addClusterNode.html', {'form': form, 'farmid': farmid})
+
+def allfarmersmaps(request, username=''):
+	displayInfo = GetFarms(request)
+	return render(request, 'main/allfarmersmaps.html', {"displayInfo": displayInfo})
+
+def adminmapdetails(request, farmname='', farmid=''):
 	displayInfo = GetFarmNodes(farmname)
-	return render(request, 'main/adminmapdetails.html', {"farmname": farmname, "displayInfo": displayInfo})
+	return render(request, 'main/adminmapdetails.html', {"farmname": farmname, "farmid": farmid, "displayInfo": displayInfo})
 
 def allfarms(request, networkname=''):
 	return render(request, 'main/allfarms.html', {"networkname": networkname})
@@ -50,11 +87,48 @@ def createNetwork(request):
 
 def home(request, id=''):
 	#sijiaurl = "http://ec2-184-73-33-184.compute-1.amazonaws.com:8080/"
-
 	#response = requests.get(sijiaurl)
 	#result = response.json()
 
 	return render(request, 'main/home.html') #, {"result": result})
+
+def GetFarms(request):
+	value = {}
+	username = request.user.username
+
+	if username=="davidpmontes":
+		value = {
+			"Farms": [{
+				"ID": 123,
+				"Name": "MilpitasFarm",
+				"Type": "Apple",
+				"Lat": 37.431315,
+				"Lon": -121.945802
+			}, {
+				"ID": 456,
+				"Name": "WestFarm",
+				"Type": "Strawberry",
+				"Lat": 37.302925,
+				"Lon": -122.019987
+			}, {
+				"ID": 789,
+				"Name": "AndersonLakeFarm",
+				"Type": "Watermelon",
+				"Lat": 37.191506,
+				"Lon": -121.609035
+			}]
+		}
+	elif username=="johndoe":
+		value = {
+			"Farms": [{
+				"ID": 123,
+				"Name": "JohnsFarm",
+				"Type": "Apple",
+				"Lat": 37.431315,
+				"Lon": -121.945802
+			}]
+		}
+	return value
 
 def GetFarmNodes(farmname):
 	if farmname=="WestFarm":
