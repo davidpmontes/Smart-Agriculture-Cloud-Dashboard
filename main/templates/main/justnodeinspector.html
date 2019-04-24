@@ -18,6 +18,13 @@
 	}
 </script>
 
+<script id="blockOfStuff" type="text/html">
+    Here's some random text.
+    <h1>Including HTML markup</h1>
+    And quotes too, or as one man said, "These are quotes, but
+    'these' are quotes too."
+</script>
+
 <script type="text/javascript">
 	function UpdateNodeInspector()
 	{
@@ -28,27 +35,65 @@
 	{
 		var html = '<div class="accordion" id="accordionExample">';
 
+		html += '<button class="btn btn-link" type="button">';
+		html += 	'<div>';
+		html += 		'Add Sensor';
+		html += 	'</div>';
+		html += '</button>';
+
+		// <div class="card">
+		// 	<div class="card-header" id="headingOne">
+		// 		<h2 class="mb-0">
+		// 			<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse0" aria-expanded="true" aria-controls="collapse0">
+		// 				<div>
+		// 					<img src="/static/main/img/GreenNode.png">   Sensor 0</img>
+		// 				</div>
+		// 			</button>
+		// 		</h2>
+		// 	</div>
+
+		// 	<div id="collapse0" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
+		// 	<div class="card-body">
+		// 		<p>19378641298736</p>
+		// 		</div>
+		// 	</div>
+		// </div>
+
 		for (var i = 0; i < displayInfo2.Sensors.length; i++)
 		{
 			html += '<div class="card">';
-			html += '<div class="card-header" id="headingOne">'
-  			html += '<h2 class="mb-0">';
-			html += '<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse' + i + '" aria-expanded="true" aria-controls="collapse' + i + '">';
-			
-			html += '<div>';
-			html += '<img src="' + "{% static 'main/img/GreenNode.png' %}" + '" />';
-			html += '   Sensor ' + i;
-			html += '</div>';
+			html += 	'<div class="card-header" id="headingOne">'
+  			html += 		'<h2 class="mb-0">';
+			html += 			'<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse' + i + '" aria-expanded="true" aria-controls="collapse' + i + '">';
+			html += 				'<div>';
+			html += 					'<img src="' + "{% static 'main/img/GreenNode.png' %}" + '" />';
+			html += 						'   Sensor ' + i;
+			html += 					'</img>';
+			html += 				'</div>';
+			html += 			'</button>';
 
-			html += '</button>';
-			html += '</h2>';
-			html += '</div>';
-			html += '<div id="collapse' + i + '" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">';
-			html += '<div class="card-body">';
-			html += '<p>' + displayInfo2.Sensors[i].ID + '</p>';
+			html +=				'<a href="' + "{% url 'main-addSensorNode' farmid=farmid %}" + '">'
+			html += 				'<button class="btn btn-link" type="button">';
+			html += 					'<div>';
+			html += 						'Edit';
+			html += 					'</div>';
+			html += 				'</button>';
+			html +=				'</a>'
 
-			html += '</div>';
-			html += '</div>';
+			html += 			'<button class="btn btn-link" type="button">';
+			html += 				'<div>';
+			html += 					'Delete';
+			html += 				'</div>';
+			html += 			'</button>';
+
+			html += 		'</h2>';
+			html += 	'</div>';
+
+			html += 	'<div id="collapse' + i + '" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">';
+			html += 		'<div class="card-body">';
+			html += 			'<p>' + displayInfo2.Sensors[i].ID + '</p>';
+			html += 		'</div>';
+			html += 	'</div>';
 			html += '</div>';
 		}
 
@@ -57,6 +102,3 @@
 		return html;
 	}
 </script>
-
-<!-- <script type="text/javascript" src="http://13.57.209.41:8080/sensors">
- </script> -->

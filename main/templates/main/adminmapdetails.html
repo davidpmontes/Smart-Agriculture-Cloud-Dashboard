@@ -10,7 +10,13 @@
         "{{ farmname }}" Farm
     </div>
     <div class="card-body">
-        <div id="map">
+        <div class="container">
+            <div class="row">
+                <div id="NodeInspector" class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                </div>
+                <div id="map" class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -35,8 +41,7 @@
     </div>
 </div>
 
-
-
+{% include "main/justnodeinspector.html" %}
 {% include "main/justmap.html" %}
 
 {% endblock content %}
