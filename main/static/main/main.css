@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
 
+.davidboxshadows {
+  box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
+}
+
 .container {
   margin-top: 20px;
   background-color: rgba(255, 0, 0, 0.0);

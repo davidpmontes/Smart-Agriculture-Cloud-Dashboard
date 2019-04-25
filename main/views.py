@@ -1,37 +1,51 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from requests.exceptions import ConnectionError
-from . forms import NetworkCreationForm, NetworkDeletionForm, FarmEditForm, SensorNodeForm, ClusterNodeForm
+from . forms import NetworkCreationForm, NetworkDeletionForm, FarmEditForm, SensorNodeForm, ClusterNodeForm, SensorForm
 import requests
+
+
 
 def editFarm(request, farmid=''):
 	if request.method == 'POST':
 		form = FarmEditForm(request.POST)
 		if form.is_valid():
-			messages.success(request, f'Your new Sensor Node has been created!')
+			messages.success(request, f'Farm updated!')
 			return redirect('main-home')
 	else:
 		form = FarmEditForm()
 
 	return render(request, 'main/editFarm.html', {'form': form, 'farmid': farmid})
 
-def addSensorNode(request, farmid=''):
+def addSensor(request, sensornodeid=''):
+	if request.method == 'POST':
+		form = SensorForm(request.POST)
+		if form.is_valid():
+			messages.success(request, f'Your new Sensor has been created!')
+			return redirect('main-home')
+	else:
+		form = SensorForm()
+
+	return render(request, 'main/addSensor.html', {'form': form, 'sensornodeid': sensornodeid})
+
+def addSensorNode(request, farmname='', farmid=''):
 	if request.method == 'POST':
 		form = SensorNodeForm(request.POST)
 		if form.is_valid():
-			messages.success(request, f'Your new Sensor Node has been created!')
-			return redirect('main-home')
+			messages.success(request, f'New Sensor Node created!')
+			return redirect('main-adminmapdetails', farmname=farmname, farmid=farmid)
 	else:
 		form = SensorNodeForm()
 
 	return render(request, 'main/addSensorNode.html', {'form': form, 'farmid': farmid})
 
-def addClusterNode(request, farmid=''):
+def addClusterNode(request, farmname='', farmid=''):
 	if request.method == 'POST':
 		form = ClusterNodeForm(request.POST)
 		if form.is_valid():
-			messages.success(request, f'Your new Cluster Node has been created!')
-			return redirect('main-home')
+			messages.success(request, f'New Cluster Node created!')
+			return redirect('main-adminmapdetails', farmname=farmname, farmid=farmid)
+
 	else:
 		form = ClusterNodeForm()
 

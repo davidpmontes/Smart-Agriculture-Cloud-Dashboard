@@ -19,11 +19,6 @@
 		// New Map
 		var map1 = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-		google.maps.event.addListener(map1, 'click',
-			function(event) {
-				addMarker({coords: event.latLng});
-		});
-
 		for (var i = 0; i < displayInfo.ClusterNodes.length; i++)
 		{
 			for (var j = 0; j < displayInfo.ClusterNodes[i].SensorNodes.length; j++)
@@ -47,15 +42,7 @@
 			});
 
 			marker.addListener('click', function() {
-				UpdateNodeInspector();
-			});
-
-			marker.addListener('mouseover', function() {
-				infoWindow.open(map1, marker);
-			});
-
-			marker.addListener('mouseout', function() {
-				infoWindow.close();
+				UpdateNodeInspector(node.ID);
 			});
 
 			function GetIcon()

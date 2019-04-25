@@ -4,35 +4,37 @@
 
 {% block content %}
 
-<div class="card">
-	<div class="card-header bg-light text-white">
-		*
-	</div>
-	<div class="card-body">
-		<div class="content-section">
-			<div class="media">
-				{% if user.profile.image %}
-					<img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
-				{% else %}
-	
-				{% endif %}
-				<div class="media-body">
-					<h2 class="account-heading">{{ user.username }}</h2>
-					<p class="text-secondary">{{ user.email }}</p>
+<div class="davidboxshadows">
+	<div class="card">
+		<div class="card-header bg-light text-white">
+			*
+		</div>
+		<div class="card-body">
+			<div class="content-section">
+				<div class="media">
+					{% if user.profile.image %}
+						<img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+					{% else %}
+		
+					{% endif %}
+					<div class="media-body">
+						<h2 class="account-heading">{{ user.username }}</h2>
+						<p class="text-secondary">{{ user.email }}</p>
+					</div>
 				</div>
+		
+				<form method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<fieldset class="form-group">
+						<legend class="border-bottom mb-4">Profile Info</legend>
+						{{ u_form | crispy }}
+						{{ p_form | crispy }}
+					</fieldset>
+					<div class="form-group">
+						<button class="btn btn-outline-info" type="submit">Update</button>
+					</div>
+				</form>
 			</div>
-	
-			<form method="POST" enctype="multipart/form-data">
-				{% csrf_token %}
-				<fieldset class="form-group">
-					<legend class="border-bottom mb-4">Profile Info</legend>
-					{{ u_form | crispy }}
-					{{ p_form | crispy }}
-				</fieldset>
-				<div class="form-group">
-					<button class="btn btn-outline-info" type="submit">Update</button>
-				</div>
-			</form>
 		</div>
 	</div>
 </div>

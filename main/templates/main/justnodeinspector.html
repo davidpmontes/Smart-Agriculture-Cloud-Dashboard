@@ -26,20 +26,25 @@
 </script>
 
 <script type="text/javascript">
-	function UpdateNodeInspector()
+	function UpdateNodeInspector(sensornodeid)
 	{
-		$("#NodeInspector").html(DisplaySensors());
+		$("#NodeInspector").html(DisplaySensors(sensornodeid));
 	}
 
-	function DisplaySensors()
+	function DisplaySensors(sensornodeid)
 	{
 		var html = '<div class="accordion" id="accordionExample">';
 
-		html += '<button class="btn btn-link" type="button">';
-		html += 	'<div>';
-		html += 		'Add Sensor';
-		html += 	'</div>';
-		html += '</button>';
+		html += '<h1> NodeID: ' + sensornodeid + '</h1>';
+
+		html +=	'<a href="' + "{% url 'main-addSensor' sensornodeid=12345 %}".replace('12345', 'new sensor') + '">'
+		html += 	'<button class="btn btn-default btn-primary" type="button">';
+		html += 		'<div>';
+		html += 			'Add Sensor';
+		html += 		'</div>';
+		html += 	'</button>';
+		html += '</a>';
+
 
 		// <div class="card">
 		// 	<div class="card-header" id="headingOne">
@@ -64,6 +69,7 @@
 			html += '<div class="card">';
 			html += 	'<div class="card-header" id="headingOne">'
   			html += 		'<h2 class="mb-0">';
+
 			html += 			'<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse' + i + '" aria-expanded="true" aria-controls="collapse' + i + '">';
 			html += 				'<div>';
 			html += 					'<img src="' + "{% static 'main/img/GreenNode.png' %}" + '" />';
@@ -72,19 +78,21 @@
 			html += 				'</div>';
 			html += 			'</button>';
 
-			html +=				'<a href="' + "{% url 'main-addSensorNode' farmid=farmid %}" + '">'
-			html += 				'<button class="btn btn-link" type="button">';
+			html +=				'<a href="' + "{% url 'main-addSensor' sensornodeid=12345 %}".replace('12345', sensornodeid) + '">'
+			html += 				'<button class="btn btn-default btn-primary" type="button">';
 			html += 					'<div>';
 			html += 						'Edit';
 			html += 					'</div>';
 			html += 				'</button>';
 			html +=				'</a>'
 
-			html += 			'<button class="btn btn-link" type="button">';
-			html += 				'<div>';
-			html += 					'Delete';
-			html += 				'</div>';
-			html += 			'</button>';
+			html +=				'<a href="' + "{% url 'main-addSensor' sensornodeid=12345 %}".replace('12345', sensornodeid) + '">'
+			html += 				'<button class="btn btn-default btn-primary" type="button">';
+			html += 					'<div>';
+			html += 						'Delete';
+			html += 					'</div>';
+			html += 				'</button>';
+			html +=				'</a>'
 
 			html += 		'</h2>';
 			html += 	'</div>';

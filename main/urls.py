@@ -18,7 +18,9 @@ urlpatterns = [
 
 	path('editFarm/<str:farmid>', views.editFarm, name='main-editFarm'),
 
-	path('addClusterNode/<str:farmid>', views.addClusterNode, name='main-addClusterNode'),
-	path('addSensorNode/<str:farmid>', views.addSensorNode, name='main-addSensorNode'),
+	path('addClusterNode/<str:farmname>/<str:farmid>', views.addClusterNode, name='main-addClusterNode'),
+	path('addSensorNode/<str:farmname>/<str:farmid>', views.addSensorNode, name='main-addSensorNode'),
+	
+	path('addSensor/<str:sensornodeid>', views.addSensor, name='main-addSensor'),
 ]
 

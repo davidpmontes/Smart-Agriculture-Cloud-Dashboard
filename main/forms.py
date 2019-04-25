@@ -1,5 +1,14 @@
 from django import forms
 
+class SensorForm(forms.Form):
+	SensorID = forms.CharField(label='SensorID', max_length=100)
+	SensorNodeID = forms.CharField(label='SensorNodeID', max_length=100)
+	Type = forms.CharField(label='Type', max_length=100)
+	Status = forms.CharField(label='Status', max_length=100)
+
+	class Meta:
+		fields = ['your_name']
+
 class SensorNodeForm(forms.Form):
 	SensorName = forms.CharField(label='Sensor name', max_length=100)
 	ClusterName = forms.CharField(label='Cluster name', max_length=100)

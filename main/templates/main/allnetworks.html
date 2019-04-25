@@ -3,16 +3,18 @@
 
 {% block content %}
 
-<div class="card">
-  <div class="card-header bg-primary text-white">
-    Networks Map
-  </div>
-  <div class="card-body">
-    <div id="map">
+<div class="davidboxshadows">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      Networks Map
     </div>
-    <a class="nav-link" href="{% url 'createNetwork' %}">
-        <button type="button" class="btn btn-primary btn-lg btn-block">Create Network</button>
-      </a>
+    <div class="card-body">
+      <div id="map">
+      </div>
+      <a class="nav-link" href="{% url 'createNetwork' %}">
+          <button type="button" class="btn btn-primary btn-lg btn-block">Create Network</button>
+        </a>
+    </div>
   </div>
 </div>
 

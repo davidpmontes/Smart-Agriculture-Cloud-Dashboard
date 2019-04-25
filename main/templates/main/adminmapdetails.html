@@ -14,29 +14,26 @@
             <div class="row">
                 <div id="NodeInspector" class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
                 </div>
-                <div id="map" class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                <div id="map" class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-            <a href="{% url 'main-editFarm' farmid=farmid %}" >
-                <button type="button" class="btn btn-primary">Edit Farm</button>
-            </a>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-            <a href="{% url 'main-addClusterNode' farmid=farmid %}" >
-                <button type="button" class="btn btn-primary">Add Cluster Node</button>
-            </a>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-            <a href="{% url 'main-addSensorNode' farmid=farmid %}" >
-                <button type="button" class="btn btn-primary">Add Sensor Node</button>
-            </a>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                    <a href="{% url 'main-editFarm' farmid=farmid %}" >
+                        <button type="button" class="btn btn-primary btn-block">Edit Farm</button>
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                    <a href="{% url 'main-addClusterNode' farmname=farmname farmid=farmid %}" >
+                        <button type="button" class="btn btn-primary btn-block">Add Cluster Node</button>
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                    <a href="{% url 'main-addSensorNode' farmname=farmname farmid=farmid %}" >
+                        <button type="button" class="btn btn-primary btn-block">Add Sensor Node</button>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
