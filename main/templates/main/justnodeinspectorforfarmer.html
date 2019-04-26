@@ -1,0 +1,62 @@
+{% load static %}
+
+<script type="text/javascript">
+	// GetSensorsInSensorNode(string SensorNodeID)
+	displayInfo2 = {
+		"Sensors" : [
+			{
+				"ID": 19378641298736,
+				"Status": "Active",
+				"Type": "Water"
+			},
+			{
+				"ID": 84737291983745,
+				"Status": "Active",
+				"Type": "Water"
+			}
+		]
+	}
+</script>
+
+<script type="text/javascript">
+	function UpdateNodeInspector(sensornodeid)
+	{
+		$("#NodeInspector").html(DisplaySensors(sensornodeid));
+	}
+
+	function DisplaySensors(sensornodeid)
+	{
+		var html = '<div class="accordion" id="accordionExample">';
+
+		html += '<h1> NodeID: ' + sensornodeid + '</h1>';
+
+		for (var i = 0; i < displayInfo2.Sensors.length; i++)
+		{
+			html += '<div class="card">';
+			html += 	'<div class="card-header" id="headingOne">'
+  			html += 		'<h2 class="mb-0">';
+
+			html += 			'<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse' + i + '" aria-expanded="true" aria-controls="collapse' + i + '">';
+			html += 				'<div>';
+			html += 					'<img src="' + "{% static 'main/img/GreenNode.png' %}" + '" />';
+			html += 						'   Sensor ' + i;
+			html += 					'</img>';
+			html += 				'</div>';
+			html += 			'</button>';
+
+			html += 		'</h2>';
+			html += 	'</div>';
+
+			html += 	'<div id="collapse' + i + '" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">';
+			html += 		'<div class="card-body">';
+			html += 			'<p>' + displayInfo2.Sensors[i].ID + '</p>';
+			html += 		'</div>';
+			html += 	'</div>';
+			html += '</div>';
+		}
+
+		html += '</div>';
+
+		return html;
+	}
+</script>

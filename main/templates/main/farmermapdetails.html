@@ -1,0 +1,28 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        "{{ farmname }}" Farm
+    </div>
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                <div id="NodeInspector" class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                </div>
+                <div id="map" class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "main/justnodeinspectorforfarmer.html" %}
+{% include "main/justmap.html" %}
+
+{% endblock content %}
+

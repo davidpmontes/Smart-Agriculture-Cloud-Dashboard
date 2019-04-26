@@ -2,13 +2,10 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-
-farmid: {{ farmid }}
-
 <div class="davidboxshadows">
 	<div class="card">
-		<div class="card-header bg-primary text-white">
-			Add/Edit Sensor Node
+		<div class="card-header bg-danger text-white">
+			Delete Sensor
 		</div>
 		<div class="card-body">
 			<div class="content-section">
@@ -17,13 +14,14 @@ farmid: {{ farmid }}
 					<fieldset class="form-group">
 						{{ form | crispy }}
 					</fieldset>
+		
+					<h3>Are you sure you want to delete this sensor?</h3>
 					<div class="form-group">
-						<button class="btn btn-outline-info" type="submit">Submit</button>
+						<button class="btn btn-outline-info" type="submit">Delete</button>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
 </div>
-
 {% endblock content %}

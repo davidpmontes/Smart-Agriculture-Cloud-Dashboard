@@ -1,10 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from requests.exceptions import ConnectionError
-from . forms import NetworkCreationForm, NetworkDeletionForm, FarmEditForm, SensorNodeForm, ClusterNodeForm, SensorForm
+from . forms import NetworkCreationForm, NetworkDeletionForm, FarmEditForm, SensorNodeForm, ClusterNodeForm, SensorForm, SensorDeletionForm
 import requests
-
-
 
 def editFarm(request, farmid=''):
 	if request.method == 'POST':
@@ -27,6 +25,7 @@ def addSensor(request, sensornodeid=''):
 		form = SensorForm()
 
 	return render(request, 'main/addSensor.html', {'form': form, 'sensornodeid': sensornodeid})
+
 
 def addSensorNode(request, farmname='', farmid=''):
 	if request.method == 'POST':
@@ -55,6 +54,10 @@ def allfarmersmaps(request, username=''):
 	displayInfo = GetFarms(request)
 	return render(request, 'main/allfarmersmaps.html', {"displayInfo": displayInfo})
 
+def farmermapdetails(request, farmname='', farmid=''):
+	displayInfo = GetFarmNodes(farmname)
+	return render(request, 'main/farmermapdetails.html', {"farmname": farmname, "farmid": farmid, "displayInfo": displayInfo})
+
 def adminmapdetails(request, farmname='', farmid=''):
 	displayInfo = GetFarmNodes(farmname)
 	return render(request, 'main/adminmapdetails.html', {"farmname": farmname, "farmid": farmid, "displayInfo": displayInfo})
@@ -65,6 +68,16 @@ def allfarms(request, networkname=''):
 def allnetworks(request):
 	return render(request, 'main/allnetworks.html')
 
+def deleteSensor(request, sensorid=''):
+	if request.method == 'POST':
+		form = SensorDeletionForm(request.POST)
+		if form.is_valid():
+			messages.success(request, f'Sensor deleted')
+			return redirect('main-home')
+	else:
+		form = SensorDeletionForm()
+
+	return render(request, 'main/deleteSensor.html', {'form': form, 'sensorid': sensorid})
 
 def deleteNetwork(request):
 	if request.method == 'POST':
@@ -136,7 +149,7 @@ def GetFarms(request):
 		value = {
 			"Farms": [{
 				"ID": 123,
-				"Name": "JohnsFarm",
+				"Name": "MilpitasFarm",
 				"Type": "Apple",
 				"Lat": 37.431315,
 				"Lon": -121.945802

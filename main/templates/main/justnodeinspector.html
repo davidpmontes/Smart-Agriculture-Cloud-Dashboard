@@ -18,13 +18,6 @@
 	}
 </script>
 
-<script id="blockOfStuff" type="text/html">
-    Here's some random text.
-    <h1>Including HTML markup</h1>
-    And quotes too, or as one man said, "These are quotes, but
-    'these' are quotes too."
-</script>
-
 <script type="text/javascript">
 	function UpdateNodeInspector(sensornodeid)
 	{
@@ -36,6 +29,13 @@
 		var html = '<div class="accordion" id="accordionExample">';
 
 		html += '<h1> NodeID: ' + sensornodeid + '</h1>';
+		html +=	'<a href=' + "#" + '>'
+		html += 	'<button class="btn btn-default btn-primary" type="button">';
+		html += 		'<div>';
+		html += 			'Edit Node';
+		html += 		'</div>';
+		html += 	'</button>';
+		html += '</a>';
 
 		html +=	'<a href="' + "{% url 'main-addSensor' sensornodeid=12345 %}".replace('12345', 'new sensor') + '">'
 		html += 	'<button class="btn btn-default btn-primary" type="button">';
@@ -86,7 +86,7 @@
 			html += 				'</button>';
 			html +=				'</a>'
 
-			html +=				'<a href="' + "{% url 'main-addSensor' sensornodeid=12345 %}".replace('12345', sensornodeid) + '">'
+			html +=				'<a href="' + "{% url 'main-deleteSensor' sensorid=12345 %}".replace('12345', 123) + '">'
 			html += 				'<button class="btn btn-default btn-primary" type="button">';
 			html += 					'<div>';
 			html += 						'Delete';

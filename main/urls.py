@@ -13,6 +13,8 @@ urlpatterns = [
 	path('allfarms/', views.allfarms, name='main-allfarms'),
 	path('allfarms/<str:networkname>', views.allfarms, name='main-allfarms'),
 
+	path('farmermapdetails/<str:farmname>/<str:farmid>', views.farmermapdetails, name='main-farmermapdetails'),
+
 	path('adminmapdetails/', views.adminmapdetails, name='main-adminmapdetails'),
 	path('adminmapdetails/<str:farmname>/<str:farmid>', views.adminmapdetails, name='main-adminmapdetails'),
 
@@ -22,5 +24,6 @@ urlpatterns = [
 	path('addSensorNode/<str:farmname>/<str:farmid>', views.addSensorNode, name='main-addSensorNode'),
 	
 	path('addSensor/<str:sensornodeid>', views.addSensor, name='main-addSensor'),
+	path('deleteSensor/<str:sensorid>', views.deleteSensor, name='main-deleteSensor'),
 ]
 

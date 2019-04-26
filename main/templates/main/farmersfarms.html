@@ -9,7 +9,7 @@
 <script type="text/javascript">
 	function goToMapDetails(name)
 	{
-		location.href="{% url 'main-adminmapdetails' farmname=12345 %}".replace("12345", name);
+		location.href="{% url 'main-farmermapdetails' farmname=12345 farmid=67890 %}".replace("12345", name).replace("67890", "123something");
 	}
 
 	function initMap()
