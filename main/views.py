@@ -3,6 +3,10 @@ from django.contrib import messages
 from requests.exceptions import ConnectionError
 from . forms import NetworkCreationForm, NetworkDeletionForm, FarmEditForm, SensorNodeForm, ClusterNodeForm, SensorForm, SensorDeletionForm
 import requests
+import urllib.parse
+
+url = "http://ec2-54-197-218-120.compute-1.amazonaws.com:8080"
+
 
 def editFarm(request, farmid=''):
 	if request.method == 'POST':
@@ -66,7 +70,10 @@ def allfarms(request, networkname=''):
 	return render(request, 'main/allfarms.html', {"networkname": networkname})
 
 def allnetworks(request):
-	return render(request, 'main/allnetworks.html')
+	response = requests.get(urllib.parse.urljoin(url, "getAllNetwork"))
+	results = response.json()
+	print(results)
+	return render(request, 'main/allnetworks.html', {"results": results})
 
 def deleteSensor(request, sensorid=''):
 	if request.method == 'POST':
@@ -112,12 +119,8 @@ def createNetwork(request):
 
 
 
-def home(request, id=''):
-	#sijiaurl = "http://ec2-184-73-33-184.compute-1.amazonaws.com:8080/"
-	#response = requests.get(sijiaurl)
-	#result = response.json()
-
-	return render(request, 'main/home.html') #, {"result": result})
+def home(request, id=''):	
+	return render(request, 'main/home.html')
 
 def GetFarms(request):
 	value = {}
