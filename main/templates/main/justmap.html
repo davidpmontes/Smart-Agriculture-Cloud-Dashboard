@@ -6,52 +6,52 @@
 <script type="text/javascript">
 	function initMap()
 	{
-		displayInfo = {{ displayInfo|safe }};
+		getFarmbyID = {{ getFarmbyID | safe }};
+		getNodesinFarm = {{ getNodesinFarm | safe }}
 
-		//loadData();
 		var mapOptions = {
 			zoom: 12,
 			center: {
-				lat: 35.51, lng: -120.51
+				lat: getFarmbyID.lat,
+				lng: getFarmbyID.lon
 			}
 		}
 
-		// New Map
 		var map1 = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-		for (var i = 0; i < displayInfo.ClusterNodes.length; i++)
+		for (var i = 0; i < getNodesinFarm.length; i++)
 		{
-			for (var j = 0; j < displayInfo.ClusterNodes[i].SensorNodes.length; j++)
+			for (var j = 0; j < getNodesinFarm[i].sensornodelist.length; j++)
 			{
-				AddNode(displayInfo.ClusterNodes[i].SensorNodes[j]);
-				DrawConnection(displayInfo.ClusterNodes[i], displayInfo.ClusterNodes[i].SensorNodes[j]);
+				AddNode(getNodesinFarm[i].sensornodelist[j]);
+				DrawConnection(getNodesinFarm[i], getNodesinFarm[i].sensornodelist[j]);
 			}
-			AddNode(displayInfo.ClusterNodes[i]);
+			AddNode(getNodesinFarm[i]);
 		}
 
 		function AddNode(node)
 		{
 			var marker = new google.maps.Marker({
-				position: { lat: node.Lat, lng: node.Lon },
+				position: { lat: node.lat, lng: node.lon },
 				map: map1,
 				icon: GetIcon(),
 			});
 
 			var infoWindow = new google.maps.InfoWindow({
-				content: '<h3>' + node.ID + '</h3>'
+				content: '<h3>' + node.sensornodeid + '</h3>'
 			});
 
 			marker.addListener('click', function() {
-				UpdateNodeInspector(node.ID);
+				UpdateNodeInspector(node.sensornodeid);
 			});
 
 			function GetIcon()
 			{
-				if (node.Status == "Active")
-					url = "{% static 'main/img/GreenNode.png' %}";
+				//if (node.Status == "Active")
+				url = "{% static 'main/img/GreenNode.png' %}";
 
-				if (node.Status == "InActive")
-					url = "{% static 'main/img/RedNode.png' %}";
+				//if (node.Status == "InActive")
+				//url = "{% static 'main/img/RedNode.png' %}";
 
 		      	var icon = {
 					url: url,
@@ -67,8 +67,8 @@
 		function DrawConnection(Node1, Node2)
 		{
 			var flightPath = new google.maps.Polyline({
-				path: [{lat: Node1.Lat, lng: Node1.Lon},
-					   {lat: Node2.Lat, lng: Node2.Lon}],
+				path: [{lat: Node1.lat, lng: Node1.lon},
+					   {lat: Node2.lat, lng: Node2.lon}],
 				geodesic: true,
 				strokeColor: '#FF0000',
 				strokeOpacity: 1.0,

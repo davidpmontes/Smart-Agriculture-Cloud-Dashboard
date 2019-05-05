@@ -1,31 +1,41 @@
 <div class="container">
 
 	<div class="row">
-		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+			<div class="davidboxshadows">
+				<div class="card">
+					<div class="card-body bg-primary text-white text-center">
+						<h2 id="TotalNetworks"></h2>
+						<h2>Networks</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
 			<div class="davidboxshadows">
 				<div class="card">
 					<div class="card-body bg-success text-white text-center">
-						<h2>520</h2>
+						<h2 id="TotalUsers"></h2>
 						<h2>Users</h2>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
 			<div class="davidboxshadows">
 				<div class="card">
 					<div class="card-body bg-primary text-white text-center">
-						<h2>903</h2>
+						<h2 id="TotalFarms"></h2>
 						<h2>Farms</h2>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
 			<div class="davidboxshadows">
 				<div class="card">
 					<div class="card-body bg-warning text-white text-center">
-						<h2>11,384</h2>
+						<h2 id="TotalSensors"></h2>
 						<h2>Sensors</h2>
 					</div>
 				</div>
@@ -77,32 +87,38 @@
 	
 	<div class="row">
 		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-			<div class="card">
-				<div class="card-header bg-success text-white">
-					Sensors Status
-				</div>
-				<div class="card-body">
-					<div id="sensorsStatus"></div></li>
-				</div>
-			</div>
-		</div>
-		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-			<div class="card">
-				<div class="card-header bg-primary text-white">
-					Farms Status
-				</div>
-				<div class="card-body">
-						<div id="farmsStatus"></div></li>
+			<div class="davidboxshadows">
+				<div class="card">
+					<div class="card-header bg-success text-white">
+						Sensors Status
+					</div>
+					<div class="card-body">
+						<div id="sensorsStatus"></div></li>
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-			<div class="card">
-				<div class="card-header bg-warning text-white">
-					Networks Status
+			<div class="davidboxshadows">
+				<div class="card">
+					<div class="card-header bg-primary text-white">
+						Farms Status
+					</div>
+					<div class="card-body">
+							<div id="farmsStatus"></div></li>
+					</div>
 				</div>
-				<div class="card-body">
-					<div id="networksStatus"></div></li>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+			<div class="davidboxshadows">
+				<div class="card">
+					<div class="card-header bg-warning text-white">
+						Networks Status
+					</div>
+					<div class="card-body">
+						<div id="networksStatus"></div></li>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -112,102 +128,97 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script type="text/javascript">
-	google.charts.load("current", {packages:["corechart"]});
-	google.charts.setOnLoadCallback(drawChart);
-	function drawChart() {
-	var data = google.visualization.arrayToDataTable([
-		['Task', 'Hours per Day'],
-		['Up Sensors',     489],
-		['Down Sensors',      5]
-	]);
+	function drawChart_sensorsStatus() {
+		var data = google.visualization.arrayToDataTable([
+			['Task', 'Hours per Day'],
+			['Up',     489],
+			['Down',      5]
+		]);
 
-	var options = {
-		colors: ['green', 'red'],
-		pieHole: 0.4,
-	};
+		var options = {
+			colors: ['green', 'red'],
+			pieHole: 0,
+			chartArea: {
+				width: '100%',
+				height: '100%'
+			}
+		};
 
-	var chart = new google.visualization.PieChart(document.getElementById('sensorsStatus'));
-	chart.draw(data, options);
+		var chart = new google.visualization.PieChart(document.getElementById('sensorsStatus'));
+		chart.draw(data, options);
 	}
-</script>
 
-<script type="text/javascript">
-	google.charts.load("current", {packages:["corechart"]});
-	google.charts.setOnLoadCallback(drawChart);
-	function drawChart() {
-	var data = google.visualization.arrayToDataTable([
-		['Task', 'Hours per Day'],
-		['Up Farms',     94],
-		['Down Farms',      2]
-	]);
+	function drawChart_farmsStatus() {
+		var data = google.visualization.arrayToDataTable([
+			['Task', 'Hours per Day'],
+			['Up',     94],
+			['Down',      2]
+		]);
 
-	var options = {
-		colors: ['green', 'red'],
-		pieHole: 0.4,
-	};
+		var options = {
+			colors: ['green', 'red'],
+			pieHole: 0,
+			chartArea: {
+				width: '100%',
+				height: '100%'
+			}
+		};
 
-	var chart = new google.visualization.PieChart(document.getElementById('farmsStatus'));
-	chart.draw(data, options);
+		var chart = new google.visualization.PieChart(document.getElementById('farmsStatus'));
+		chart.draw(data, options);
 	}
-</script>
 
-<script type="text/javascript">
-	google.charts.load("current", {packages:["corechart"]});
-	google.charts.setOnLoadCallback(drawChart);
-	function drawChart() {
-	var data = google.visualization.arrayToDataTable([
-		['Task', 'Hours per Day'],
-		['Up Networks',     6],
-		['Down Networks',      1]
-	]);
+	function drawChart_networksStatus() {
+		var data = google.visualization.arrayToDataTable([
+			['Task', 'Hours per Day'],
+			['Up',     6],
+			['Down',      1]
+		]);
 
-	var options = {
-		colors: ['green', 'red'],
-		pieHole: 0.4,
-	};
+		var options = {
+			colors: ['green', 'red'],
+			pieHole: 0,
+			chartArea: {
+				width: '100%',
+				height: '100%'
+			}
+		};
 
-	var chart = new google.visualization.PieChart(document.getElementById('networksStatus'));
-	chart.draw(data, options);
+		var chart = new google.visualization.PieChart(document.getElementById('networksStatus'));
+		chart.draw(data, options);
 	}
-</script>
-
-<script>
-	google.charts.load('current', {'packages':['bar']});
-    google.charts.setOnLoadCallback(drawChart_sensorHealthByNetwork);
 
     function drawChart_sensorHealthByNetwork() {
-        var data = google.visualization.arrayToDataTable([
-        	['Network', 'Percentage'],
-			["Alabama", 100],
-			["San Jose", 96],
-			["South Carolina", 98],
-			["Washington", 100]
-        ]);
+
+		networksList = [['Network', 'Percentage']];
+
+		for (i = 0; i < getAllNetwork.length; i++)
+		{
+			networkID = getAllNetwork[i].networkID
+			networksList.push([networkID, getAllNetworkHeath[networkID] * 100]);
+		}
+
+        var data = google.visualization.arrayToDataTable(networksList);
 
         var options = {
-			legend: { position: 'none' },
 			bars: 'horizontal', // Required for Material Bar Charts.
-			axes: {
-				x: {
-					0: { side: 'top', label: 'Percentage'} // Top x-axis.
-				}
-			},
-    		bar: { groupWidth: "90%" }
         };
 
         var chart = new google.charts.Bar(document.getElementById('sensorHealthByNetwork'));
         chart.draw(data, options);
     };
-</script>
-
-<script type="text/javascript">
-	google.charts.load('current', {'packages':['bar']});
-	google.charts.setOnLoadCallback(drawChart_numberoffarmsByType);
 
     function drawChart_numberoffarmsByType() {
+		farmNames = ['']
+		farmCounts = ['']
+		for (i = 0; i < getFarmTotalwithType.length; i++) {
+			farmNames.push(getFarmTotalwithType[i][0]);
+			farmCounts.push(getFarmTotalwithType[i][1])
+		}
+
 		var data = google.visualization.arrayToDataTable([
-			['', 'Apple', 'Dairy', 'Pickle', 'Kiwi', 'Other'],
-			[' ', 150, 225, 15, 14, 35],
+			farmNames,
+			farmCounts,
 		]);
 
 		var options = {
@@ -215,18 +226,12 @@
 				bar: {
 					groupWidth: 40
 				},
-				legend: 'none'
 			}
         };
 
 		var chart = new google.charts.Bar(document.getElementById('numberoffarmsByType'));
 		chart.draw(data, google.charts.Bar.convertOptions(options));
 	}
-</script>
-
-<script type="text/javascript">
-	google.charts.load('current', {'packages':['bar']});
-	google.charts.setOnLoadCallback(drawChart_numberofsensorsByType);
 
     function drawChart_numberofsensorsByType() {
 		var data = google.visualization.arrayToDataTable([
@@ -246,20 +251,59 @@
 		var chart = new google.charts.Bar(document.getElementById('numberofsensorsByType'));
 		chart.draw(data, google.charts.Bar.convertOptions(options));
 	}
-</script>
 
-<script>
 	var charts = "done";
 	$(window).resize(function() {
 		if(charts == "done"){
 			charts = "waiting";
 			setTimeout(function(){
-				drawChart_sensorHealthByNetwork();
-				drawChart_numberofsensorsByType();
-				drawChart_numberoffarmsByType();
+				drawAllCharts();
 				charts = "done"
 			}
 			,100);
 		}
 	});
+
+	function drawAllCharts() {
+		drawChart_sensorsStatus();
+		drawChart_farmsStatus();
+		drawChart_networksStatus();
+		drawChart_sensorHealthByNetwork();
+		drawChart_numberofsensorsByType();
+		drawChart_numberoffarmsByType();
+	}
+</script>
+
+<script>
+	getAllNetwork = {{ getAllNetwork | safe }}
+	getAllNetworkHeath = {{ getAllNetworkHeath | safe }}
+	getUsersTotal = {{ getUsersTotal | safe }}
+	getFarmsTotal = {{ getFarmsTotal | safe }}
+	getSensorsTotal = {{ getSensorsTotal | safe }}
+	getFarmTotalwithType = {{ getFarmTotalwithType | safe }}
+
+	if (getAllNetwork == "error")
+	{
+
+	}
+	else
+	{
+		document.getElementById('TotalNetworks').innerText = getAllNetwork.length;
+		document.getElementById('TotalUsers').innerText = getUsersTotal;
+		document.getElementById('TotalFarms').innerText = getFarmsTotal;
+		document.getElementById('TotalSensors').innerText = getSensorsTotal;
+
+		google.charts.load("current", {packages:["corechart"]});
+		google.charts.setOnLoadCallback(drawChart_sensorsStatus);
+		google.charts.load("current", {packages:["corechart"]});
+		google.charts.setOnLoadCallback(drawChart_farmsStatus);
+		google.charts.load("current", {packages:["corechart"]});
+		google.charts.setOnLoadCallback(drawChart_networksStatus);
+		google.charts.load('current', {'packages':['bar']});
+    google.charts.setOnLoadCallback(drawChart_sensorHealthByNetwork);
+		google.charts.load('current', {'packages':['bar']});
+		google.charts.setOnLoadCallback(drawChart_numberoffarmsByType);
+		google.charts.load('current', {'packages':['bar']});
+		google.charts.setOnLoadCallback(drawChart_numberofsensorsByType);
+	}
 </script>

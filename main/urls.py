@@ -8,6 +8,7 @@ urlpatterns = [
 	path('allfarmersmaps/', views.allfarmersmaps, name='main-allfarmersmaps'),
 	path('allfarmersmaps/<str:username>', views.allfarmersmaps, name='main-allfarmersmaps'),
 
+	path('allusers/', views.allusers, name='main-allusers'),
 	path('allnetworks/', views.allnetworks, name='main-allnetworks'),
 
 	path('allfarms/', views.allfarms, name='main-allfarms'),

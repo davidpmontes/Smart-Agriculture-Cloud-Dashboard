@@ -1,44 +1,35 @@
 {% load static %}
 
-<script type="text/javascript">
-	displayInfo = {
-		"Farms": [{
-			"ID": 123,
-			"Name": "MilpitasFarm",
-		    "Type": "Apple",
-			"Lat": 37.431315,
-			"Lon": -121.945802
-		}, {
-			"ID": 456,
-			"Name": "WestFarm",
-		  	"Type": "Strawberry",
-			"Lat": 37.302925,
-			"Lon": -122.019987
-		}, {
-			"ID": 789,
-			"Name": "AndersonLakeFarm",
-		  	"Type": "Watermelon",
-			"Lat": 37.191506,
-			"Lon": -121.609035
-		}]
-	}
-</script>
-
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkLJ7SLGqjDIyeLjRPBmG7C0KTXpsF6xY&callback=initMap">
 </script>
 
 <script type="text/javascript">
-	function goToMapDetails(name)
+	function goToMapDetails(name, farmID)
 	{
-		location.href="{% url 'main-adminmapdetails' farmname=12345 farmid=67890 %}".replace("12345", name).replace("67890", "123something");
+		location.href="{% url 'main-adminmapdetails' farmname=12345 farmid=67890 %}".replace("12345", name).replace("67890", farmID);
 	}
 
 	function initMap()
 	{
+		getFarmsInNetwork = {{ getFarmsInNetwork | safe }}
+		getNetworkbyID = {{ getNetworkbyID | safe }}
+
+		lat = getNetworkbyID.lat;
+		lon = getNetworkbyID.lon;
+		zoom = 6
+
+		if (getFarmsInNetwork.length > 0)
+		{
+			lat = getFarmsInNetwork[0].lat;
+			lon = getFarmsInNetwork[0].lon;
+			zoom = 10
+		}
+
 		var mapOptions = {
-			zoom: 10,
+			zoom: zoom,
 			center: {
-				lat: 37.3382, lng: -121.8863
+				lat: lat,
+				lng: lon
 			}
 		}
 
@@ -50,30 +41,30 @@
 				addMarker({coords: event.latLng});
 		});
 
-		for (var i = 0; i < displayInfo.Farms.length; i++)
+		for (var i = 0; i < getFarmsInNetwork.length; i++)
 		{
-			AddNode(displayInfo.Farms[i]);
+			AddNode(getFarmsInNetwork[i]);
 		}
 
 		function AddNode(farm)
 		{
 			var marker = new google.maps.Marker({
-				position: { lat: farm.Lat, lng: farm.Lon },
+				position: { lat: farm.lat, lng: farm.lon },
 				map: map1,
 				icon: GetIcon(),
 			});
 
 			var infoWindow = new google.maps.InfoWindow({
-				content: '<h3>' + farm.Name + '</h3>'
+				content: '<h3>' + farm.name + '</h3>'
 			});
 
 			marker.addListener('click', function() {
-				goToMapDetails(farm.Name);
+				goToMapDetails(farm.name, farm.farmID);
 			});
 
 			function GetIcon()
 			{
-				url = "{% static 'main/img/' %}" + farm.Type + ".png"
+				url = "{% static 'main/img/' %}" + farm.type + ".png"
 
 		      	var icon = {
 					url: url,

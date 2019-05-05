@@ -1,25 +1,31 @@
 {% load static %}
 
-<script type="text/javascript">
-</script>
-
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkLJ7SLGqjDIyeLjRPBmG7C0KTXpsF6xY&callback=initMap">
 </script>
 
 <script type="text/javascript">
-	function goToMapDetails(name)
+	function goToMapDetails(name, farmID)
 	{
-		location.href="{% url 'main-farmermapdetails' farmname=12345 farmid=67890 %}".replace("12345", name).replace("67890", "123something");
+		location.href="{% url 'main-farmermapdetails' farmname=12345 farmid=67890 %}".replace("12345", name).replace("67890", farmID);
 	}
 
 	function initMap()
 	{
         displayInfo = {{ displayInfo | safe}}
 
+		farmLat = 35.5;
+		farmlon = -120;
+
+		if (displayInfo.length > 0)
+		{
+			farmLat = displayInfo[0].lat;
+			farmLon = displayInfo[0].lon;
+		}
+
 		var mapOptions = {
 			zoom: 10,
 			center: {
-				lat: 37.3382, lng: -121.8863
+				lat: farmLat, lng: farmLon
 			}
 		}
 
@@ -31,30 +37,30 @@
 				addMarker({coords: event.latLng});
 		});
 
-		for (var i = 0; i < displayInfo.Farms.length; i++)
+		for (var i = 0; i < displayInfo.length; i++)
 		{
-			AddNode(displayInfo.Farms[i]);
+			AddNode(displayInfo[i]);
 		}
 
 		function AddNode(farm)
 		{
 			var marker = new google.maps.Marker({
-				position: { lat: farm.Lat, lng: farm.Lon },
+				position: { lat: farm.lat, lng: farm.lon },
 				map: map1,
 				icon: GetIcon(),
 			});
 
 			var infoWindow = new google.maps.InfoWindow({
-				content: '<h3>' + farm.Name + '</h3>'
+				content: '<h3>' + farm.name + '</h3>'
 			});
 
 			marker.addListener('click', function() {
-				goToMapDetails(farm.Name);
+				goToMapDetails(farm.name, farm.farmID);
 			});
 
 			function GetIcon()
 			{
-				url = "{% static 'main/img/' %}" + farm.Type + ".png"
+				url = "{% static 'main/img/' %}" + farm.type + ".png"
 
 		      	var icon = {
 					url: url,

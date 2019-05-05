@@ -19,7 +19,6 @@ class SensorNodeForm(forms.Form):
 		fields = ['your_name']
 
 class ClusterNodeForm(forms.Form):
-	ClusterName = forms.CharField(label='Cluster name', max_length=100)
 	lat = forms.CharField(label='Latitude', max_length=100)
 	lon = forms.CharField(label='Longitude', max_length=100)
 
@@ -27,9 +26,10 @@ class ClusterNodeForm(forms.Form):
 		fields = ['your_name']
 
 class FarmEditForm(forms.Form):
-	farmName = forms.CharField(label='Farm name', max_length=100)
+	networkID = forms.CharField(label='Network ID', max_length=100)
+	name = forms.CharField(label='Farm name', max_length=100)
 	farmType = forms.CharField(label='Farm type', max_length=100)
-	userName = forms.CharField(label='Username of farm owner', max_length=100)
+	userID = forms.CharField(label='Users email address', max_length=100)
 	lat = forms.CharField(label='Latitude', max_length=100)
 	lon = forms.CharField(label='Longitude', max_length=100)
 

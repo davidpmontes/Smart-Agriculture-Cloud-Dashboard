@@ -4,15 +4,50 @@ from requests.exceptions import ConnectionError
 from . forms import NetworkCreationForm, NetworkDeletionForm, FarmEditForm, SensorNodeForm, ClusterNodeForm, SensorForm, SensorDeletionForm
 import requests
 import urllib.parse
+from django.contrib.auth.models import User
 
-url = "http://ec2-54-197-218-120.compute-1.amazonaws.com:8080"
+
+url = "http://ec2-3-81-30-51.compute-1.amazonaws.com:8080/"
 
 
 def editFarm(request, farmid=''):
 	if request.method == 'POST':
 		form = FarmEditForm(request.POST)
 		if form.is_valid():
-			messages.success(request, f'Farm updated!')
+			if (farmid=='newfarm'):
+				networkID = request.POST['networkID']
+				name = request.POST['name']
+				farmType = request.POST['farmType']
+				userID = request.POST['userID']
+				lat = request.POST['lat']
+				lon = request.POST['lon']
+
+
+				data = {
+					'networkID': networkID,
+					'name': name,
+					'type': farmType,
+					'userID': userID,
+					'lat': float(lat),
+					'lon': float(lon)
+				}
+
+				try:
+					requests.post(url = url + "addFarm", data = data)
+					messages.success(request, f'Farm created!')
+				except:
+					messages.error(request, f'Uh oh, there was a problem creating your farm.  Please try again later.')
+
+			else:
+				# try:
+				# 	requests.post(url = url + "createFarm", data = data)
+				# 	messages.success(request, f'Your new network has been created!')
+				# except:
+				# 	messages.success(request, f'Your new network has been created!')
+				# 	messages.error(request, f'Uh oh, there was a problem creating your network.  Please try again later.')
+
+				messages.success(request, f'Farm updated!')
+
 			return redirect('main-home')
 	else:
 		form = FarmEditForm()
@@ -46,7 +81,20 @@ def addClusterNode(request, farmname='', farmid=''):
 	if request.method == 'POST':
 		form = ClusterNodeForm(request.POST)
 		if form.is_valid():
-			messages.success(request, f'New Cluster Node created!')
+			farmID = int(farmid)
+			lat = request.POST['lat']
+			lon = request.POST['lon']
+
+			data = {
+				'farmID': farmID,
+				'lat': float(lat),
+				'lon': float(lon)
+			}
+			try:
+				requests.post(url = url + "addClusterNode", data = data)
+				messages.success(request, f'New Cluster Node created!')
+			except:
+				messages.error(request, f'Uh oh, there was a problem creating your cluster node.  Please try again later.')
 			return redirect('main-adminmapdetails', farmname=farmname, farmid=farmid)
 
 	else:
@@ -55,24 +103,75 @@ def addClusterNode(request, farmname='', farmid=''):
 	return render(request, 'main/addClusterNode.html', {'form': form, 'farmid': farmid})
 
 def allfarmersmaps(request, username=''):
-	displayInfo = GetFarms(request)
+	userID = request.user.email
+	data = {
+		'userID': userID
+	}
+
+	try:
+		displayInfo = requests.get(url = url + "getFarmbyUserID", params = data).json()
+	except:
+		print("allfarmersmaps error")
+
 	return render(request, 'main/allfarmersmaps.html', {"displayInfo": displayInfo})
 
 def farmermapdetails(request, farmname='', farmid=''):
-	displayInfo = GetFarmNodes(farmname)
-	return render(request, 'main/farmermapdetails.html', {"farmname": farmname, "farmid": farmid, "displayInfo": displayInfo})
+	data = {
+		'farmID': farmid
+	}
+
+	try:
+		getFarmbyID = requests.get(url = url + "getFarmbyID", params = data).json()
+		getNodesinFarm = requests.get(url = url + "getNodesinFarm", params = data).json()
+	except:
+		print("allfarmersmaps error")
+
+	return render(request, 'main/farmermapdetails.html', {"farmname": farmname,
+														  "farmid": farmid,
+														  "getFarmbyID": getFarmbyID,
+														  "getNodesinFarm": getNodesinFarm
+														  })
 
 def adminmapdetails(request, farmname='', farmid=''):
-	displayInfo = GetFarmNodes(farmname)
-	return render(request, 'main/adminmapdetails.html', {"farmname": farmname, "farmid": farmid, "displayInfo": displayInfo})
+	data = {
+		'farmID': farmid
+	}
+	try:
+		getFarmbyID = requests.get(url = url + "getFarmbyID", params = data).json()
+		getNodesinFarm = requests.get(url = url + "getNodesinFarm", params = data).json()
+	except:
+		print("adminmapdetails error")
+
+	return render(request, 'main/adminmapdetails.html', {"farmname": farmname,
+														 "farmid": farmid,
+														 "getFarmbyID": getFarmbyID,
+														 "getNodesinFarm": getNodesinFarm })
+
+def allusers(request):
+	return render(request, 'main/allUsers.html')
+
 
 def allfarms(request, networkname=''):
-	return render(request, 'main/allfarms.html', {"networkname": networkname})
+	data = {
+		'networkID': networkname
+	}
+
+	try:
+		getNetworkbyID = requests.get(url = url + "getNetworkbyID", params = data).json()
+		getFarmsInNetwork = requests.get(url = url + "getFarmsInNetwork", params = data).json()
+	except:
+		print("getFarmsInNetwork error")
+	print(getFarmsInNetwork)
+
+	return render(request, 'main/allfarms.html', {"networkname": networkname,
+												  "getNetworkbyID": getNetworkbyID,
+												  "getFarmsInNetwork": getFarmsInNetwork})
 
 def allnetworks(request):
-	response = requests.get(urllib.parse.urljoin(url, "getAllNetwork"))
-	results = response.json()
-	print(results)
+	try:
+		results = requests.get(urllib.parse.urljoin(url, "getAllNetwork")).json()
+	except:
+		results = "-1"
 	return render(request, 'main/allnetworks.html', {"results": results})
 
 def deleteSensor(request, sensorid=''):
@@ -103,14 +202,26 @@ def createNetwork(request):
 	if request.method == 'POST':
 		form = NetworkCreationForm(request.POST)
 		if form.is_valid():
-			#api call to get NetworkNames
+			networkID = request.POST['networkName']
+			lat = request.POST['lat']
+			lon = request.POST['lon']
+			data = {
+				'networkID': networkID,
+				'lat': float(lat),
+				'lon': float(lon)
+			}
+
+			#call api
 			existingNetworkNames = ['farm1', 'farm2']
 
 			if form.cleaned_data.get('networkName') in existingNetworkNames:
 				messages.error(request, f'That network name already exists')
 			else:
-				#api call to create NewNetwork
-				messages.success(request, f'Your new network has been created!')
+				try:
+					requests.post(url = url + "createNetwork", data = data)
+					messages.success(request, f'Your new network has been created!')
+				except:
+					messages.error(request, f'Uh oh, there was a problem creating your network.  Please try again later.')
 				return redirect('main-home')
 	else:
 		form = NetworkCreationForm()
@@ -119,8 +230,29 @@ def createNetwork(request):
 
 
 
-def home(request, id=''):	
-	return render(request, 'main/home.html')
+def home(request, id=''):
+	try:
+		getFarmTotalwithType = requests.get(urllib.parse.urljoin(url, "getFarmTotalwithType"), timeout=3).json()
+		getAllNetwork = requests.get(urllib.parse.urljoin(url, "getAllNetwork"), timeout=3).json()
+		getAllNetworkHeath = requests.get(urllib.parse.urljoin(url, "getAllNetworkHeath"), timeout=3).json()
+		getFarmsTotal = requests.get(urllib.parse.urljoin(url, "getFarmTotal"), timeout=3).json()
+		getUsersTotal = len(User.objects.all())
+		getSensorsTotal = 15
+	except: 
+		getFarmTotalwithType = "error"
+		getAllNetwork = "error"
+		getAllNetworkHeath = "error"
+		getFarmsTotal = "error"
+		getUsersTotal = "error"
+		getSensorsTotal = "error"
+
+	return render(request, 'main/home.html', {"getFarmTotalwithType": getFarmTotalwithType,
+											  "getAllNetwork": getAllNetwork,
+											  "getAllNetworkHeath": getAllNetworkHeath,
+											  "getFarmsTotal": getFarmsTotal,
+											  "getUsersTotal": getUsersTotal,
+											  "getSensorsTotal": getSensorsTotal
+											  })
 
 def GetFarms(request):
 	value = {}
