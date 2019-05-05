@@ -148,7 +148,23 @@ def adminmapdetails(request, farmname='', farmid=''):
 														 "getNodesinFarm": getNodesinFarm })
 
 def allusers(request):
-	return render(request, 'main/allUsers.html')
+	allusers = User.objects.all()
+	#allusernames = [str(user) for user in User.objects.all()]
+	#alluserfarms = []
+	farmDictionary = {}
+
+
+	for user in allusers:
+		data = { 'userID': user.email }
+		try:
+			farmList = requests.get(url = url + "getFarmbyUserID", params = data).json()
+			farmDictionary[(str(user), user.email)] = farmList
+			#alluserfarms.append(farmDictionary)
+		except:
+			print("all users error")
+	
+	return render(request, 'main/allUsers.html', {'allusers': allusers,
+												  'farmDictionary': farmDictionary})
 
 
 def allfarms(request, networkname=''):
