@@ -49,7 +49,10 @@
 		function AddNode(farm)
 		{
 			var marker = new google.maps.Marker({
-				position: { lat: farm.lat, lng: farm.lon },
+				position: {
+					lat: farm.lat,
+					lng: farm.lon
+				},
 				map: map1,
 				icon: GetIcon(),
 			});

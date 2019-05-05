@@ -7,10 +7,12 @@ import urllib.parse
 from django.contrib.auth.models import User
 
 
+
 url = "http://ec2-3-81-30-51.compute-1.amazonaws.com:8080/"
 
 
 def editFarm(request, farmid=''):
+	getAllNetworkID = []
 	if request.method == 'POST':
 		form = FarmEditForm(request.POST)
 		if form.is_valid():
@@ -52,7 +54,8 @@ def editFarm(request, farmid=''):
 	else:
 		form = FarmEditForm()
 
-	return render(request, 'main/editFarm.html', {'form': form, 'farmid': farmid})
+	return render(request, 'main/editFarm.html', {'form': form,
+												  'farmid': farmid})
 
 def addSensor(request, sensornodeid=''):
 	if request.method == 'POST':
