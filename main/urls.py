@@ -23,6 +23,7 @@ urlpatterns = [
 
 	path('addClusterNode/<str:farmname>/<str:farmid>', views.addClusterNode, name='main-addClusterNode'),
 	path('addSensorNode/<str:farmname>/<str:farmid>', views.addSensorNode, name='main-addSensorNode'),
+  	path('addSensorNode2/<str:farmname>/<str:farmid>/<str:clusternodeid>',views.addSensorNode2, name='main-addSensorNode2'),
 	
 	path('addSensor/<str:sensornodeid>', views.addSensor, name='main-addSensor'),
 	path('deleteSensor/<str:sensorid>', views.deleteSensor, name='main-deleteSensor'),

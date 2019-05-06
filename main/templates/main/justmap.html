@@ -66,7 +66,7 @@
 			marker.addListener('click', function() {
 				if (type == "clusternode")
 				{
-					UpdateNodeInspectorCluster(getSensorsinClusterDict[node.clusternodeid], type);
+					UpdateNodeInspectorCluster(node, getSensorsinClusterDict[node.clusternodeid], type);
 				}
 			});
 

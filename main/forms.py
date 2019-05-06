@@ -15,8 +15,6 @@ class SensorForm(forms.Form):
 		fields = ['your_name']
 
 class SensorNodeForm(forms.Form):
-	SensorName = forms.CharField(label='Sensor name', max_length=100)
-	ClusterName = forms.CharField(label='Cluster name', max_length=100)
 	lat = forms.CharField(label='Latitude', max_length=100)
 	lon = forms.CharField(label='Longitude', max_length=100)
 

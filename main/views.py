@@ -69,11 +69,40 @@ def addSensor(request, sensornodeid=''):
 	return render(request, 'main/addSensor.html', {'form': form, 'sensornodeid': sensornodeid})
 
 
+def addSensorNode2(request, farmname='', farmid='', clusternodeid=''):
+	if request.method == 'POST':
+		print("hi" + clusternodeid)
+		form = SensorNodeForm(request.POST)
+		if form.is_valid():
+			clusternodeid = int(clusternodeid)
+			lat = request.POST['lat']
+			lon = request.POST['lon']
+
+			data = {
+				'clusternodeid': clusternodeid,
+				'lat': float(lat),
+				'lon': float(lon)
+			}
+
+			try:
+				requests.post(url=url + "addSensorNode", data=data)
+				messages.success(request, f'New Sensor Node created!')
+			except:
+				messages.error(
+					request, f'Uh oh, there was a problem creating your sensor node.  Please try again later.')
+
+			return redirect('main-adminmapdetails', farmname, farmid)
+	else:
+		form = SensorNodeForm()
+
+	return render(request, 'main/addSensorNode.html', {'form': form, 'clusternodeid': clusternodeid})
+
 def addSensorNode(request, farmname='', farmid=''):
 	if request.method == 'POST':
 		form = SensorNodeForm(request.POST)
 		if form.is_valid():
-			messages.success(request, f'New Sensor Node created!')
+			
+
 			return redirect('main-adminmapdetails', farmname=farmname, farmid=farmid)
 	else:
 		form = SensorNodeForm()
