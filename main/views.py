@@ -139,29 +139,38 @@ def adminmapdetails(request, farmname='', farmid=''):
 	data = {
 		'farmID': farmid
 	}
+	getSensorsinClusterDict = {}
 	try:
 		getFarmbyID = requests.get(url = url + "getFarmbyID", params = data).json()
 		getNodesinFarm = requests.get(url = url + "getNodesinFarm", params = data).json()
+		for cluster in getNodesinFarm:
+			data2 = {
+				'clusternodeid': cluster['clusternodeid']
+			}
+			getSensorsinCluster = requests.get(url=url + "getSensorsinCluster", params=data2).json()
+			getSensorsinClusterDict[cluster['clusternodeid']] = getSensorsinCluster
+
 	except:
 		print("adminmapdetails error")
+
+	print(getSensorsinClusterDict)
 
 	return render(request, 'main/adminmapdetails.html', {"farmname": farmname,
 														 "farmid": farmid,
 														 "getFarmbyID": getFarmbyID,
-														 "getNodesinFarm": getNodesinFarm })
+														 "getNodesinFarm": getNodesinFarm,
+                                                      	 "getSensorsinClusterDict": getSensorsinClusterDict})
 
 def allusers(request):
 	allusers = User.objects.all()
-	#allusernames = [str(user) for user in User.objects.all()]
-	#alluserfarms = []
 	farmDictionary = {}
 
 
 	for user in allusers:
-		data = { 'userID': user.email }
+		data = { 'userID': user }
 		try:
 			farmList = requests.get(url = url + "getFarmbyUserID", params = data).json()
-			farmDictionary[(str(user), user.email)] = farmList
+			farmDictionary[str(user)] = farmList
 			#alluserfarms.append(farmDictionary)
 		except:
 			print("all users error")

@@ -13,33 +13,26 @@
             <thead class="thead-light">
                 <tr>
                     <th>Username</th>
-                    <th>Email</th>
                     <th>Farms</th>
                     <th>Type</th>
                 </tr>
             </thead>
             <tbody class="table-striped">
 
-                {% for userandemail, farmlist in farmDictionary.items %} 
+                {% for username, farmlist in farmDictionary.items %} 
                     {% if farmlist %}
                         {% for f in farmlist %}
                             <tr>
-                                {% for i in userandemail %}
-                                    <td>{{ i }}</td>
-                                {% endfor %}
+                                <td>{{ username }}</td>
                                 <td>
-                                    <a href="{% url 'main-adminmapdetails' f.name f.farmID %}">
-                                        {{ f.name }}
-                                    </a>
+                                    <a href="{% url 'main-adminmapdetails' f.name f.farmID %}">{{ f.name }}</a>
                                 </td>
                                 <td>{{ f.type }}</td>
                             </tr>
                         {% endfor %}
                     {% else %}
                         <tr>
-                            {% for i in userandemail %}
-                                <td>{{ i }}</td>
-                            {% endfor %}
+                            <td>{{ username }}</td>
                             <td>N/A</td>
                             <td>N/A</td>
                         </tr>

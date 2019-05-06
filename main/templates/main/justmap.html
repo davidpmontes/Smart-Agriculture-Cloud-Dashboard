@@ -8,12 +8,22 @@
 	{
 		getFarmbyID = {{ getFarmbyID | safe }};
 		getNodesinFarm = {{ getNodesinFarm | safe }}
+		getSensorsinClusterDict = {{ getSensorsinClusterDict | safe }}
+
+		lat = getFarmbyID.lat;
+		lon = getFarmbyID.lon
+
+		if (getNodesinFarm.length > 0)
+		{
+			lat = getNodesinFarm[0]['lat'];
+			lon = getNodesinFarm[0]['lon'];
+		}
 
 		var mapOptions = {
 			zoom: 12,
 			center: {
-				lat: getFarmbyID.lat,
-				lng: getFarmbyID.lon
+				lat: lat,
+				lng: lon
 			}
 		}
 
@@ -21,16 +31,28 @@
 
 		for (var i = 0; i < getNodesinFarm.length; i++)
 		{
+			clusternode = getNodesinFarm[i];
+
 			for (var j = 0; j < getNodesinFarm[i].sensornodelist.length; j++)
 			{
-				AddNode(getNodesinFarm[i].sensornodelist[j]);
-				DrawConnection(getNodesinFarm[i], getNodesinFarm[i].sensornodelist[j]);
+				AddNode(getNodesinFarm[i].sensornodelist[j], "sensornode");
+				DrawConnection(clusternode, getNodesinFarm[i].sensornodelist[j]);
 			}
-			AddNode(getNodesinFarm[i]);
+			AddNode(clusternode, "clusternode");
 		}
 
-		function AddNode(node)
+		function AddNode(node, type)
 		{
+			content = ""
+			if (type == "clusternode")
+			{
+				content = '<h3>' + node.clusternodeid + '</h3>';
+			}
+			else
+			{
+				content = '<h3>' + node.sensornodeid + '</h3>';
+			}
+
 			var marker = new google.maps.Marker({
 				position: { lat: node.lat, lng: node.lon },
 				map: map1,
@@ -38,11 +60,14 @@
 			});
 
 			var infoWindow = new google.maps.InfoWindow({
-				content: '<h3>' + node.sensornodeid + '</h3>'
+				content: content
 			});
 
 			marker.addListener('click', function() {
-				UpdateNodeInspector(node.sensornodeid);
+				if (type == "clusternode")
+				{
+					UpdateNodeInspectorCluster(getSensorsinClusterDict[node.clusternodeid], type);
+				}
 			});
 
 			function GetIcon()
