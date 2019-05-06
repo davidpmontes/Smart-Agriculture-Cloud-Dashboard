@@ -71,7 +71,6 @@ def addSensor(request, sensornodeid=''):
 
 def addSensorNode2(request, farmname='', farmid='', clusternodeid=''):
 	if request.method == 'POST':
-		print("hi" + clusternodeid)
 		form = SensorNodeForm(request.POST)
 		if form.is_valid():
 			clusternodeid = int(clusternodeid)
@@ -113,12 +112,12 @@ def addClusterNode(request, farmname='', farmid=''):
 	if request.method == 'POST':
 		form = ClusterNodeForm(request.POST)
 		if form.is_valid():
-			farmID = int(farmid)
+			farmid = int(farmid)
 			lat = request.POST['lat']
 			lon = request.POST['lon']
 
 			data = {
-				'farmID': farmID,
+				'farmid': farmid,
 				'lat': float(lat),
 				'lon': float(lon)
 			}
@@ -181,8 +180,6 @@ def adminmapdetails(request, farmname='', farmid=''):
 
 	except:
 		print("adminmapdetails error")
-
-	print(getSensorsinClusterDict)
 
 	return render(request, 'main/adminmapdetails.html', {"farmname": farmname,
 														 "farmid": farmid,

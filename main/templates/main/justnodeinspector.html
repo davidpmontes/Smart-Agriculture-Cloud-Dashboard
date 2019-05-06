@@ -19,12 +19,58 @@
 </script>
 
 <script type="text/javascript">
-	function UpdateNodeInspectorCluster(clusternode, sensornodes, type)
+	function UpdateNodeInspectorCluster(clusternode, sensornodes)
 	{
-		$("#NodeInspector").html(DisplaySensors(clusternode, sensornodes, type));
+		$("#NodeInspector").html(DisplayClusterNodeSensors(clusternode, sensornodes));
 	}
 
-	function DisplaySensors(clusternode, sensornodes, type)
+	function UpdateNodeInspectorSensorNode(clusternode, sensornode, sensornodes)
+	{
+		$("#NodeInspector").html(DisplaySensorNodeSensors(clusternode, sensornode, sensornodes));
+	}
+
+	function DisplaySensorNodeSensors(clusternode, sensornode, sensornodes)
+	{
+		console.log(clusternode);
+		console.log(sensornode);
+		console.log(sensornodes);
+
+		var html = '<div>';
+
+		html += '<h3>SensorNodeID: ' + sensornode.sensornodeid + ', Lat: ' + sensornode.lat + ', Lon: ' + sensornode.lon + '</h3>'
+
+		html += '<table id="sensordetails" class="table table-light table-bordered table-hover">'
+		html += 	'<thead class="thead-light">'
+		html += 		'<tr>'
+		html += 			'<th>SensorID</th>'
+		html += 			'<th>Type</th>'
+		html += 			'<th>Status</th>'
+		html += 		'</tr>'
+		html += 	'</thead>'
+		html += '<tbody class="table-striped">'
+
+		for (i = 0; i < sensornodes.length; i++) {
+			if (sensornodes[i].sensornodeid == sensornode.sensornodeid)
+			{
+				sensorlist=sensornodes[i]['sensorlist']
+				for (j=0; j < sensorlist.length; j++) {
+					html +='<tr>'
+					html +='<td>' + sensorlist[j]['sensorid'] + '</td>'
+					html +='<td>' + sensorlist[j]['type'] + '</td>'
+					html +='<td>' + sensorlist[j]['status'] + '</td>'
+					html +='</tr>'
+				}
+			}
+		}
+		html +='</tbody>'
+		html +='</table>'
+
+		html += '</div>';
+
+		return html;
+	}
+
+	function DisplayClusterNodeSensors(clusternode, sensornodes)
 	{
 		var html = '<div>';
 
