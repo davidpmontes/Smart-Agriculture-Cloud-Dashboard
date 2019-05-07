@@ -1,15 +1,30 @@
 from django import forms
 import requests
 
+FARM_TYPES = (
+    ('Cherry', 'Cherry'),
+    ('Pickles', 'Pickles'),
+    ('Strawberry', 'Strawberry')
+)
+
+SENSOR_TYPES = (
+    ('Water', 'Water'),
+    ('Temperature', 'Temperature'),
+    ('PH', 'PH')
+)
+
+STATUS_TYPES = (
+    ('Active', 'Active'),
+    ('Inactive', 'Inactive')
+)
 
 url = "http://ec2-3-81-30-51.compute-1.amazonaws.com:8080/"
 
 
 class SensorForm(forms.Form):
-	SensorID = forms.CharField(label='SensorID', max_length=100)
-	SensorNodeID = forms.CharField(label='SensorNodeID', max_length=100)
-	Type = forms.CharField(label='Type', max_length=100)
-	Status = forms.CharField(label='Status', max_length=100)
+	sensorID = forms.CharField(label='Sensor ID', max_length=100)
+	sensorType = forms.ChoiceField(label='Farm type', choices=SENSOR_TYPES)
+	status = forms.ChoiceField(label='Farm type', choices=STATUS_TYPES)
 
 	class Meta:
 		fields = ['your_name']
@@ -27,12 +42,6 @@ class ClusterNodeForm(forms.Form):
 
 	class Meta:
 		fields = ['your_name']
-
-FARM_TYPES = (
-	('Cherry', 'Cherry'),
-    ('Pickles','Pickles'),
-    ('Strawberry','Strawberry')
-)
 
 class FarmEditForm(forms.Form):
 	allNetworkID = []
@@ -72,6 +81,17 @@ class NetworkDeletionForm(forms.Form):
 		fields = ['your_name']
 
 class SensorDeletionForm(forms.Form):
+
+	class Meta:
+		fields = ['your_name']
+
+class SensorNodeDeletionForm(forms.Form):
+
+	class Meta:
+		fields = ['your_name']
+
+
+class ClusterNodeDeletionForm(forms.Form):
 
 	class Meta:
 		fields = ['your_name']

@@ -1,0 +1,27 @@
+{% extends "main/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="davidboxshadows">
+    <div class="card">
+        <div class="card-header bg-danger text-white">
+            Delete Cluster Node ID = {{ clusternodeid }}
+        </div>
+        <div class="card-body">
+            <div class="content-section">
+                <form method="POST">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        {{ form | crispy }}
+                    </fieldset>
+
+                    <h3>Are you sure you want to delete this cluster node?</h3>
+                    <div class="form-group">
+                        <button class="btn btn-outline-info" type="submit">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

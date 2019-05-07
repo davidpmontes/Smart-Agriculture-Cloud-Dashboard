@@ -1,24 +1,6 @@
 {% load static %}
 
 <script type="text/javascript">
-	// GetSensorsInSensorNode(string SensorNodeID)
-	displayInfo2 = {
-		"Sensors" : [
-			{
-				"ID": 19378641298736,
-				"Status": "Active",
-				"Type": "Water"
-			},
-			{
-				"ID": 84737291983745,
-				"Status": "Active",
-				"Type": "Water"
-			}
-		]
-	}
-</script>
-
-<script type="text/javascript">
 	function UpdateNodeInspectorCluster(clusternode, sensornodes)
 	{
 		$("#NodeInspector").html(DisplayClusterNodeSensors(clusternode, sensornodes));
@@ -31,13 +13,17 @@
 
 	function DisplaySensorNodeSensors(clusternode, sensornode, sensornodes)
 	{
-		console.log(clusternode);
-		console.log(sensornode);
-		console.log(sensornodes);
-
 		var html = '<div>';
 
 		html += '<h3>SensorNodeID: ' + sensornode.sensornodeid + ', Lat: ' + sensornode.lat + ', Lon: ' + sensornode.lon + '</h3>'
+
+		html += '<a href="' + "{% url 'main-addSensor' sensornodeid=12345 %}".replace('12345', sensornode.sensornodeid) + '">'
+		html += 	'<button class="btn btn-default btn-primary" type="button">'
+		html +=			'<div>'
+		html +=				'Add Sensor'
+		html += 		'</div>'
+		html += 	'</button>'
+		html += '</a>'
 
 		html += '<table id="sensordetails" class="table table-light table-bordered table-hover">'
 		html += 	'<thead class="thead-light">'
@@ -45,6 +31,7 @@
 		html += 			'<th>SensorID</th>'
 		html += 			'<th>Type</th>'
 		html += 			'<th>Status</th>'
+		html +=				'<th>Sensor Actions</th>'
 		html += 		'</tr>'
 		html += 	'</thead>'
 		html += '<tbody class="table-striped">'
@@ -58,6 +45,27 @@
 					html +='<td>' + sensorlist[j]['sensorid'] + '</td>'
 					html +='<td>' + sensorlist[j]['type'] + '</td>'
 					html +='<td>' + sensorlist[j]['status'] + '</td>'
+
+					html += '<td>'
+
+					html += '<a href="' + "{% url 'main-addSensor' sensornodeid=12345 %}".replace('12345', sensornode.sensornodeid) + '">'
+					html += 	'<button class="btn btn-default btn-primary" type="button">'
+					html +=			'<div>'
+					html +=				'Edit'
+					html += 		'</div>'
+					html += 	'</button>'
+					html += '</a>'
+
+					html += '<a href="' + "{% url 'main-deleteSensor' sensorid=12345 %}".replace('12345', sensorlist[j]['sensorid']) + '">'
+					html += 	'<button class="btn btn-default btn-primary" type="button">'
+					html +=			'<div>'
+					html +=				'Delete'
+					html += 		'</div>'
+					html += 	'</button>'
+					html += '</a>'
+
+					html += '</td>'
+
 					html +='</tr>'
 				}
 			}
@@ -72,95 +80,19 @@
 
 	function DisplayClusterNodeSensors(clusternode, sensornodes)
 	{
-		var html = '<div>';
-
-		// html += '<h1> NodeType: ' + type + '</h1>';
-		// if (type == "clusternode")
-		// {
-		// 	html += '<h1> NodeID: ' + nodes.clusternodeid + '</h1>';
-		// }
-		// else
-		// {
-		// 	html += '<h1> NodeID: ' + nodes.sensornodeid + '</h1>';
-		// }
-		// html +=	'<a href=' + "#" + '>'
-		// html += 	'<button class="btn btn-default btn-primary" type="button">';
-		// html += 		'<div>';
-		// html += 			'Edit Node';
-		// html += 		'</div>';
-		// html += 	'</button>';
-		// html += '</a>';
-
-		// html +=	'<a href="' + "{% url 'main-addSensor' sensornodeid=12345 %}".replace('12345', 'new sensor') + '">'
-		// html += 	'<button class="btn btn-default btn-primary" type="button">';
-		// html += 		'<div>';
-		// html += 			'Add Sensor';
-		// html += 		'</div>';
-		// html += 	'</button>';
-		// html += '</a>';
+		var html = '<div>'
 
 
-		// <div class="card">
-		// 	<div class="card-header" id="headingOne">
-		// 		<h2 class="mb-0">
-		// 			<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse0" aria-expanded="true" aria-controls="collapse0">
-		// 				<div>
-		// 					<img src="/static/main/img/GreenNode.png">   Sensor 0</img>
-		// 				</div>
-		// 			</button>
-		// 		</h2>
-		// 	</div>
-
-		// 	<div id="collapse0" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
-		// 	<div class="card-body">
-		// 		<p>19378641298736</p>
-		// 		</div>
-		// 	</div>
-		// </div>
-
-
-		// for (var i = 0; i < nodes.sensornodelist.length; i++)
-		// {
-		// 	html += '<div class="card">';
-		// 	html += 	'<div class="card-header" id="headingOne">'
-		// 	html += 		'<h2 class="mb-0">';
-
-		// 	html += 			'<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse' + i + '" aria-expanded="true" aria-controls="collapse' + i + '">';
-		// 	html += 				'<div>';
-		// 	html += 					'<img src="' + "{% static 'main/img/GreenNode.png' %}" + '" />';
-		// 	html += 						'   Sensor ' + i;
-		// 	html += 					'</img>';
-		// 	html += 				'</div>';
-		// 	html += 			'</button>';
-
-		// 	html += '<a href="' + " {% url 'main-addSensor' sensornodeid=12345 %}".replace('12345', nodes.sensornodelist[i].sensornodeid) + '">'
-		// 	html += 				'<button class="btn btn-default btn-primary" type="button">';
-		// 	html += 					'<div>';
-		// 	html += 						'Edit';
-		// 	html += 					'</div>';
-		// 	html += 				'</button>';
-		// 	html +=				'</a>'
-
-		// 	html +=				'<a href="' + "{% url 'main-deleteSensor' sensorid=12345 %}".replace('12345', 123) + '">'
-		// 	html += 				'<button class="btn btn-default btn-primary" type="button">';
-		// 	html += 					'<div>';
-		// 	html += 						'Delete';
-		// 	html += 					'</div>';
-		// 	html += 				'</button>';
-		// 	html +=				'</a>'
-
-		// 	html += 		'</h2>';
-		// 	html += 	'</div>';
-
-		// 	html += 	'<div id="collapse' + i + '" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">';
-		// 	html += 		'<div class="card-body">';
-		// 	html += 			'<p>' + nodes.sensornodelist[i].sensornodeid + '</p>';
-		// 	html += 		'</div>';
-		// 	html += 	'</div>';
-		// 	html += '</div>';
-		// }
 
 		html += '<h3>ClusterNodeID: ' + clusternode.clusternodeid + ', Lat: ' + clusternode.lat + ', Lon: ' + clusternode.lon + '</h3>'
+
+		html += '<a href="' + "{% url 'main-deleteClusterNode' clusternodeid=12345 %}".replace('12345', clusternode.clusternodeid) + '">'
+		html += 	'<button class="btn btn-default btn-primary" type="button">'
+		html +=			'<div>'
+		html +=				'Delete ClusterNode'
+		html += 		'</div>'
+		html += 	'</button>'
+		html += '</a>'
 
 		html += '<a href="' + "{% url 'main-addSensorNode2' farmname=5555 farmid=1111 clusternodeid=12345 %}".replace('12345', clusternode.clusternodeid).replace('1111', {{ farmid }}).replace('5555', {{ farmid }} ) + '">'
 		html += 	'<button class="btn btn-default btn-primary" type="button">'
@@ -170,13 +102,6 @@
 		html += 	'</button>'
 		html += '</a>'
 
-		// html += '<a href="' + " {% url 'main-addSensor' sensornodeid=12345 %}".replace('12345', nodes.sensornodelist[i].sensornodeid) + '">'
-		// html += '<button class="btn btn-default btn-primary" type="button">' ; // html +='<div>' ; // html +='Edit' ;
-		// html += '</div>' ;
-		// html += '</button>' ;
-		// html += '</a>'
-
-
 		html += '<table id="sensordetails" class="table table-light table-bordered table-hover">'
 		html += 	'<thead class="thead-light">'
 		html +=			'<tr>'
@@ -184,6 +109,7 @@
 		html +=				'<th>SensorID</th>'
 		html +=				'<th>Type</th>'
 		html +=				'<th>Status</th>'
+		html += 			'<th>Sensor Actions</th>'
 		html += 		'</tr>'
 		html += 	'</thead>'
 		html += 	'<tbody class="table-striped">'
@@ -196,6 +122,34 @@
 				html += '<td>' + sensorlist[j]['sensorid'] + '</td>'
 				html += '<td>' + sensorlist[j]['type'] + '</td>'
 				html += '<td>' + sensorlist[j]['status'] + '</td>'
+
+				html += '<td>'
+
+				html += '<a href="' + "#" + '">'
+				html += 	'<button class="btn btn-default btn-primary" type="button">'
+				html +=			'<div>'
+				html +=				'Data'
+				html += 		'</div>'
+				html += 	'</button>'
+				html += '</a>'
+
+				html += '<a href="' + "{% url 'main-addSensor' sensornodeid=12345 %}".replace('12345', sensornodes[i].sensornodeid) + '">'
+				html += 	'<button class="btn btn-default btn-primary" type="button">'
+				html +=			'<div>'
+				html +=				'Edit'
+				html += 		'</div>'
+				html += 	'</button>'
+				html += '</a>'
+
+				html += '<a href="' + "{% url 'main-deleteSensor' sensorid=12345 %}".replace('12345', sensorlist[j]['sensorid']) + '">'
+				html += 	'<button class="btn btn-default btn-primary" type="button">'
+				html +=			'<div>'
+				html +=				'Delete'
+				html += 		'</div>'
+				html += 	'</button>'
+				html += '</a>'
+				html += '</td>'
+
 				html += '</tr>'
 			}
 		}
@@ -215,4 +169,62 @@
 			"pagingType": "full_numbers"
 		} );
 	} );
+</script>
+
+<script>
+		// html += '<h1> NodeType: ' + type + '</h1>';
+		// if (type == "clusternode")
+		// {
+		// html += '<h1> NodeID: ' + nodes.clusternodeid + '</h1>';
+		// }
+		// else
+		// {
+		// html += '<h1> NodeID: ' + nodes.sensornodeid + '</h1>';
+		// }
+		// html += '<a href=' + "#" + '>'
+			// html += '<button class="btn btn-default btn-primary" type="button">';
+				// html += '<div>';
+					// html += 'Edit Node';
+					// html += '</div>';
+				// html += '</button>';
+			// html += '</a>';
+
+		// html += '<a href="' + " {% url 'main-addSensor' sensornodeid=12345 %}".replace('12345', 'new sensor' ) + '">' //
+			// html +='<button class="btn btn-default btn-primary" type="button">' ; // html +='<div>' ; // html +='Add Sensor'
+			// ; // html +='</div>' ; // html +='</button>' ; // html +='</a>' ; // <div class="card">
+			// <div class="card-header" id="headingOne">
+				// <h2 class="mb-0">
+					// <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse0"
+						// aria-expanded="true" aria-controls="collapse0">
+						// <div>
+							// <img src="/static/main/img/GreenNode.png"> Sensor 0</img>
+							// </div>
+						// </button>
+					// </h2>
+				// </div>
+
+			// <div id="collapse0" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample"
+				// style="">
+				// <div class="card-body">
+					// <p>19378641298736</p>
+					// </div>
+				// </div>
+			// </div>
+
+
+			// for (var i = 0; i < nodes.sensornodelist.length; i++) // { // html +='<div class="card">' ; // html
+				// +='<div class="card-header" id="headingOne">' // html +='<h2 class="mb-0">' ; // html
+				// +='<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse' + i
+				// + '" aria-expanded="true" aria-controls="collapse' + i + '">' ; // html +='<div>' ; // html +='<img src="'
+				// + "{% static 'main/img/GreenNode.png' %}" + '" />' ; // html +='   Sensor ' + i; // html +='</img>' ; // html
+				// +='</div>' ; // html +='</button>' ; // html +='<a href="' + " {% url 'main-addSensor' sensornodeid=12345 %}"
+				// .replace('12345', nodes.sensornodelist[i].sensornodeid) + '">' // html
+				// +='<button class="btn btn-default btn-primary" type="button">' ; // html +='<div>' ; // html +='Edit' ; //
+				// html +='</div>' ; // html +='</button>' ; // html +='</a>' // html +='<a href="'
+				// + "{% url 'main-deleteSensor' sensorid=12345 %}" .replace('12345', 123) + '">' // html
+				// +='<button class="btn btn-default btn-primary" type="button">' ; // html +='<div>' ; // html +='Delete' ; //
+				// html +='</div>' ; // html +='</button>' ; // html +='</a>' // html +='</h2>' ; // html +='</div>' ; // html
+				// +='<div id="collapse' + i + '" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">'
+				// ; // html +='<div class="card-body">' ; // html +='<p>' + nodes.sensornodelist[i].sensornodeid + '</p>' ; //
+				// html +='</div>' ; // html +='</div>' ; // html +='</div>' ; // }
 </script>

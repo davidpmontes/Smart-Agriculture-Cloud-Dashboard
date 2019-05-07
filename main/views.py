@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from requests.exceptions import ConnectionError
-from . forms import NetworkCreationForm, NetworkDeletionForm, FarmEditForm, SensorNodeForm, ClusterNodeForm, SensorForm, SensorDeletionForm
+from . forms import NetworkCreationForm, NetworkDeletionForm, FarmEditForm, SensorNodeForm, ClusterNodeForm, SensorForm, SensorDeletionForm, SensorNodeDeletionForm, ClusterNodeDeletionForm
 import requests
 import urllib.parse
 from django.contrib.auth.models import User
@@ -57,16 +57,35 @@ def editFarm(request, farmid=''):
 	return render(request, 'main/editFarm.html', {'form': form,
 												  'farmid': farmid})
 
+
+
 def addSensor(request, sensornodeid=''):
 	if request.method == 'POST':
 		form = SensorForm(request.POST)
 		if form.is_valid():
-			messages.success(request, f'Your new Sensor has been created!')
+			sensornodeid = int(sensornodeid)
+			sensorID = request.POST['sensorID']
+			sensorType = request.POST['sensorType']
+			status = request.POST['status']
+
+			data = {
+				'sensornodeid': sensornodeid,
+				'sensorID': sensorID,
+				'type': sensorType,
+				'status': status
+			}
+
+			try:
+				requests.post(url=url + "addSensor", data=data)
+				messages.success(request, f'New Sensor created!')
+			except:
+				messages.error(
+					request, f'Uh oh, there was a problem creating your sensor.  Please try again later.')
 			return redirect('main-home')
 	else:
 		form = SensorForm()
 
-	return render(request, 'main/addSensor.html', {'form': form, 'sensornodeid': sensornodeid})
+	return render(request, 'main/addSensor.html', {'form': form, 'sensornodeid': sensornodeid, 'name': 'david'})
 
 
 def addSensorNode2(request, farmname='', farmid='', clusternodeid=''):
@@ -228,11 +247,66 @@ def allnetworks(request):
 		results = "-1"
 	return render(request, 'main/allnetworks.html', {"results": results})
 
+
+def deleteClusterNode(request, clusternodeid=''):
+	if request.method == 'POST':
+		form = ClusterNodeDeletionForm(request.POST)
+		if form.is_valid():
+			data = {
+				'clusternodeID': clusternodeid,
+			}
+
+			try:
+				requests.post(url=url + "deleteClusterNode", data=data)
+				messages.success(request, f'Cluster node deleted')
+			except:
+				messages.error(
+					request, f'Uh oh, there was a problem deleting your cluster node.  Please try again later.')
+
+			return redirect('main-home')
+	else:
+		form = SensorDeletionForm()
+
+	return render(request, 'main/deleteClusterNode.html', {'form': form, 'clusternodeid': clusternodeid})
+
+
+def deleteSensorNode(request, sensornodeid=''):
+	if request.method == 'POST':
+		form = SensorNodeDeletionForm(request.POST)
+		if form.is_valid():
+			data = {
+				'sensornodeid': sensornodeid,
+			}
+
+			try:
+				requests.post(url=url + "deleteSensorNode", data=data)
+				messages.success(request, f'Sensor node deleted')
+			except:
+				messages.error(
+					request, f'Uh oh, there was a problem deleting your sensor node.  Please try again later.')
+
+			return redirect('main-home')
+	else:
+		form = SensorDeletionForm()
+
+	return render(request, 'main/deleteSensorNode.html', {'form': form, 'sensornodeid': sensornodeid})
+
+
 def deleteSensor(request, sensorid=''):
 	if request.method == 'POST':
 		form = SensorDeletionForm(request.POST)
 		if form.is_valid():
-			messages.success(request, f'Sensor deleted')
+			data = {
+				'sensorID': sensorid,
+			}
+
+			try:
+				requests.post(url=url + "deleteSensor", data=data)
+				messages.success(request, f'Sensor deleted')
+			except:
+				messages.error(
+					request, f'Uh oh, there was a problem deleting your sensor.  Please try again later.')
+
 			return redirect('main-home')
 	else:
 		form = SensorDeletionForm()
