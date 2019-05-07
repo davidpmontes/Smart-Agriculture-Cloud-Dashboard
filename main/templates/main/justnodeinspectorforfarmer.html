@@ -1,62 +1,121 @@
 {% load static %}
 
 <script type="text/javascript">
-	// GetSensorsInSensorNode(string SensorNodeID)
-	displayInfo2 = {
-		"Sensors" : [
+	function UpdateNodeInspectorCluster(clusternode, sensornodes)
+	{
+		$("#NodeInspector").html(DisplayClusterNodeSensors(clusternode, sensornodes));
+	}
+
+	function UpdateNodeInspectorSensorNode(clusternode, sensornode, sensornodes)
+	{
+		$("#NodeInspector").html(DisplaySensorNodeSensors(clusternode, sensornode, sensornodes));
+	}
+
+	function DisplaySensorNodeSensors(clusternode, sensornode, sensornodes)
+	{
+		var html = '<div>';
+
+		html += '<h3>SensorNodeID: ' + sensornode.sensornodeid + ', Lat: ' + sensornode.lat + ', Lon: ' + sensornode.lon + '</h3>'
+
+		html += '<table id="sensordetails" class="table table-light table-bordered table-hover">'
+		html += 	'<thead class="thead-light">'
+		html += 		'<tr>'
+		html += 			'<th>SensorID</th>'
+		html += 			'<th>Type</th>'
+		html += 			'<th>Status</th>'
+		html +=				'<th>Sensor Actions</th>'
+		html += 		'</tr>'
+		html += 	'</thead>'
+		html += '<tbody class="table-striped">'
+
+		for (i = 0; i < sensornodes.length; i++) {
+			if (sensornodes[i].sensornodeid == sensornode.sensornodeid)
 			{
-				"ID": 19378641298736,
-				"Status": "Active",
-				"Type": "Water"
-			},
-			{
-				"ID": 84737291983745,
-				"Status": "Active",
-				"Type": "Water"
+				sensorlist=sensornodes[i]['sensorlist']
+				for (j=0; j < sensorlist.length; j++) {
+					html +='<tr>'
+					html +='<td>' + sensorlist[j]['sensorid'] + '</td>'
+					html +='<td>' + sensorlist[j]['type'] + '</td>'
+					html +='<td>' + sensorlist[j]['status'] + '</td>'
+
+					html += '<td>'
+					html += '<a href="' + "#" + '">'
+					html += 	'<button class="btn btn-default btn-primary" type="button">'
+					html +=			'<div>'
+					html +=				'Data'
+					html += 		'</div>'
+					html += 	'</button>'
+					html += '</a>'
+					html += '</td>'
+
+					html +='</tr>'
+				}
 			}
-		]
-	}
-</script>
-
-<script type="text/javascript">
-	function UpdateNodeInspector(sensornodeid)
-	{
-		$("#NodeInspector").html(DisplaySensors(sensornodeid));
-	}
-
-	function DisplaySensors(sensornodeid)
-	{
-		var html = '<div class="accordion" id="accordionExample">';
-
-		html += '<h1> NodeID: ' + sensornodeid + '</h1>';
-
-		for (var i = 0; i < displayInfo2.Sensors.length; i++)
-		{
-			html += '<div class="card">';
-			html += 	'<div class="card-header" id="headingOne">'
-  			html += 		'<h2 class="mb-0">';
-
-			html += 			'<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse' + i + '" aria-expanded="true" aria-controls="collapse' + i + '">';
-			html += 				'<div>';
-			html += 					'<img src="' + "{% static 'main/img/GreenNode.png' %}" + '" />';
-			html += 						'   Sensor ' + i;
-			html += 					'</img>';
-			html += 				'</div>';
-			html += 			'</button>';
-
-			html += 		'</h2>';
-			html += 	'</div>';
-
-			html += 	'<div id="collapse' + i + '" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">';
-			html += 		'<div class="card-body">';
-			html += 			'<p>' + displayInfo2.Sensors[i].ID + '</p>';
-			html += 		'</div>';
-			html += 	'</div>';
-			html += '</div>';
 		}
+		html +='</tbody>'
+		html +='</table>'
 
 		html += '</div>';
 
 		return html;
 	}
+
+	function DisplayClusterNodeSensors(clusternode, sensornodes)
+	{
+		var html = '<div>'
+
+
+
+		html += '<h3>ClusterNodeID: ' + clusternode.clusternodeid + ', Lat: ' + clusternode.lat + ', Lon: ' + clusternode.lon + '</h3>'
+
+		html += '<table id="sensordetails" class="table table-light table-bordered table-hover">'
+		html += 	'<thead class="thead-light">'
+		html +=			'<tr>'
+		html += 			'<th>SensorNodeID</th>'
+		html +=				'<th>SensorID</th>'
+		html +=				'<th>Type</th>'
+		html +=				'<th>Status</th>'
+		html += 			'<th>Sensor Actions</th>'
+		html += 		'</tr>'
+		html += 	'</thead>'
+		html += 	'<tbody class="table-striped">'
+
+		for (i = 0; i < sensornodes.length; i++) { 
+			sensorlist=sensornodes[i]['sensorlist'] 
+			for (j=0; j < sensorlist.length; j++) {
+				html += '<tr>'
+				html += '<td>' + sensornodes[i].sensornodeid + '</td>'
+				html += '<td>' + sensorlist[j]['sensorid'] + '</td>'
+				html += '<td>' + sensorlist[j]['type'] + '</td>'
+				html += '<td>' + sensorlist[j]['status'] + '</td>'
+
+				html += '<td>'
+				html += '<a href="' + "#" + '">'
+				html += 	'<button class="btn btn-default btn-primary" type="button">'
+				html +=			'<div>'
+				html +=				'Data'
+				html += 		'</div>'
+				html += 	'</button>'
+				html += '</a>'
+				html += '</td>'
+
+				html += '</tr>'
+			}
+		}
+
+		html += 	'</tbody>'
+		html += '</table>'
+
+		html += '</div>';
+
+		return html;
+	}
+</script>
+
+<script>
+	$(document).ready(function() {
+		$('#sensordetails').DataTable( {
+			"pagingType": "full_numbers"
+		} );
+	} );
 </script>

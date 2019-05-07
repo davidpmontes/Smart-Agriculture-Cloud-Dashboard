@@ -12,7 +12,7 @@ urlpatterns = [
 	path('allnetworks/', views.allnetworks, name='main-allnetworks'),
 
 	path('allfarms/', views.allfarms, name='main-allfarms'),
-	path('allfarms/<str:networkname>', views.allfarms, name='main-allfarms'),
+	path('allfarms/<str:networkid>', views.allfarms, name='main-allfarms'),
 
 	path('farmermapdetails/<str:farmname>/<str:farmid>', views.farmermapdetails, name='main-farmermapdetails'),
 

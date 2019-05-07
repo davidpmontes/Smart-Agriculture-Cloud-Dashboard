@@ -1,0 +1,119 @@
+{% load static %}
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkLJ7SLGqjDIyeLjRPBmG7C0KTXpsF6xY&callback=initMap">
+</script>
+
+<script type="text/javascript">
+	function initMap()
+	{
+		getFarmbyID = {{ getFarmbyID | safe }};
+		getNodesinFarm = {{ getNodesinFarm | safe }}
+		getSensorsinClusterDict = {{ getSensorsinClusterDict | safe }}
+
+		lat = getFarmbyID.lat;
+		lon = getFarmbyID.lon
+
+		if (getNodesinFarm.length > 0)
+		{
+			lat = getNodesinFarm[0]['lat'];
+			lon = getNodesinFarm[0]['lon'];
+		}
+
+		var mapOptions = {
+			zoom: 12,
+			center: {
+				lat: lat,
+				lng: lon
+			}
+		}
+
+		var map1 = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+		for (var i = 0; i < getNodesinFarm.length; i++)
+		{
+			clusternode = getNodesinFarm[i];
+
+			for (var j = 0; j < getNodesinFarm[i].sensornodelist.length; j++)
+			{
+				AddNode(clusternode, getNodesinFarm[i].sensornodelist[j], "sensornode");
+				DrawConnection(clusternode, getNodesinFarm[i].sensornodelist[j]);
+			}
+			AddNode(clusternode, "","clusternode");
+		}
+
+		function AddNode(clusternode, sensornode, type)
+		{
+			content = ""
+			lat = ""
+			lon = ""
+			if (type == "clusternode")
+			{
+				content = '<h3>' + clusternode.clusternodeid + '</h3>';
+				lat = clusternode.lat;
+				lon = clusternode.lon;
+			}
+
+			if (type == "sensornode")
+			{
+				content = '<h3>' + sensornode.sensornodeid + '</h3>';
+				lat = sensornode.lat;
+				lon = sensornode.lon;
+			}
+
+			var marker = new google.maps.Marker({
+				position: { lat: lat, lng: lon },
+				map: map1,
+				icon: GetIcon(),
+			});
+
+			var infoWindow = new google.maps.InfoWindow({
+				content: content
+			});
+
+			marker.addListener('click', function() {
+				if (type == "clusternode")
+				{
+					UpdateNodeInspectorCluster(clusternode, getSensorsinClusterDict[clusternode.clusternodeid]);
+				}
+
+				if (type == "sensornode")
+				{
+					UpdateNodeInspectorSensorNode(clusternode, sensornode, getSensorsinClusterDict[clusternode.clusternodeid]);
+				}
+			});
+
+			function GetIcon()
+			{
+				if (type == "clusternode")
+					url = "{% static 'main/img/clusternode.png' %}";
+
+				if (type == "sensornode")
+					url = "{% static 'main/img/sensornode.png' %}";
+
+		      	var icon = {
+					url: url,
+					scaledSize: new google.maps.Size(32, 32),
+					size: new google.maps.Size(72, 72),
+					origin: new google.maps.Point(0, 0),
+					anchor: new google.maps.Point(16, 16)
+		        };
+
+		        return icon;
+			}
+		}
+
+		function DrawConnection(Node1, Node2)
+		{
+			var flightPath = new google.maps.Polyline({
+				path: [{lat: Node1.lat, lng: Node1.lon},
+					   {lat: Node2.lat, lng: Node2.lon}],
+				geodesic: true,
+				strokeColor: '#FF0000',
+				strokeOpacity: 1.0,
+				strokeWeight: 2
+			});
+
+			flightPath.setMap(map1);
+		}
+	}
+</script>

@@ -233,10 +233,19 @@
 		chart.draw(data, google.charts.Bar.convertOptions(options));
 	}
 
-    function drawChart_numberofsensorsByType() {
+  function drawChart_numberofsensorsByType() {
+
+		sensorNames = ['']
+		sensorCounts = ['']
+
+		for (i = 0; i < getSensorTotalwithType.length; i++) {
+			sensorNames.push(getSensorTotalwithType[i][0]);
+			sensorCounts.push(getSensorTotalwithType[i][1])
+		}
+
 		var data = google.visualization.arrayToDataTable([
-			['', 'Water', 'Temperature', 'pH', 'Cloride', 'Other'],
-			[' ', 1150, 1225, 915, 222, 95],
+		  sensorNames,
+			sensorCounts,
 		]);
 
 		var options = {
@@ -281,6 +290,8 @@
 	getFarmsTotal = {{ getFarmsTotal | safe }}
 	getSensorsTotal = {{ getSensorsTotal | safe }}
 	getFarmTotalwithType = {{ getFarmTotalwithType | safe }}
+  getSensorTotalwithType = {{ getSensorTotalwithType | safe }}
+
 
 	if (getAllNetwork == "error")
 	{

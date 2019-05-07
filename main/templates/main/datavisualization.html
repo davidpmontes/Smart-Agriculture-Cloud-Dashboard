@@ -1,0 +1,92 @@
+{% load static %}
+
+<script>
+
+var element1 = document.getElementById("option1");
+var element2 = document.getElementById("option2");
+var element3 = document.getElementById("option3");
+var element4 = document.getElementById("option4");
+
+plot("daily");
+window.resizeBy(0,0);
+
+element1.change= function(){
+    myChart.destroy();
+    plot("daily");
+    myChart.update();
+};
+
+element2.change= function(){
+    myChart.destroy();
+    plot("weekly");
+    myChart.update();
+};
+
+element3.change= function(){
+    myChart.destroy();
+    plot("monthly");
+};
+
+element4.change= function(){
+    myChart.destroy();
+    plot("yearly");
+};
+
+function plot (s_id) {
+    var targetUrl = 'http://52.53.157.50:8080/sensor?sensor_id=weekly';
+    var url = new URL( targetUrl);
+    //var params = {'sensor_id': s_id.toString()};
+    //url.search = new URLSearchParams(params)
+    var l =[];
+    var v =[];
+
+    const pro = fetch(url, {
+        method: 'GET'
+    });
+
+    pro.then(response => response.json())
+    .catch(error => console.error('Error:', error))
+    .then(function(response){
+        for ( var i = 0; i < response.data.length; i++){
+                l.push(response.data[i].date);
+                v.push(response.data[i].value);
+            }
+        });
+        // Graphs
+        var ctx = document.getElementById('myChart').getContext("2d");
+        ctx.canvas.width = 300;
+        ctx.canvas.height = 180;
+
+        console.log(l);
+        window.resizeBy(0,0);
+        myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: l,
+                datasets: [{
+                    data: v,
+                    lineTension: 0,
+                    backgroundColor: 'transparent',
+                    borderColor: '#007bff',
+                    borderWidth: 2,
+                    pointBackgroundColor: '#007bff'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                yAxes: [{
+                    ticks: {
+                        autoSkip: false,
+                        beginAtZero: false
+                    }
+                }]
+            },
+            legend: {
+                display: false
+            }
+        }
+    })
+};
+
+</script>

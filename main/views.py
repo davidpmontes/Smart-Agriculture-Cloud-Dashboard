@@ -153,33 +153,40 @@ def addClusterNode(request, farmname='', farmid=''):
 	return render(request, 'main/addClusterNode.html', {'form': form, 'farmid': farmid})
 
 def allfarmersmaps(request, username=''):
-	userID = request.user.email
+	userID = request.user.username
 	data = {
 		'userID': userID
 	}
 
 	try:
-		displayInfo = requests.get(url = url + "getFarmbyUserID", params = data).json()
+		getFarmbyUserID = requests.get(url = url + "getFarmbyUserID", params = data).json()
 	except:
 		print("allfarmersmaps error")
 
-	return render(request, 'main/allfarmersmaps.html', {"displayInfo": displayInfo})
+	return render(request, 'main/allfarmersmaps.html', {"getFarmbyUserID": getFarmbyUserID})
 
 def farmermapdetails(request, farmname='', farmid=''):
 	data = {
 		'farmID': farmid
 	}
-
+	getSensorsinClusterDict = {}
 	try:
 		getFarmbyID = requests.get(url = url + "getFarmbyID", params = data).json()
 		getNodesinFarm = requests.get(url = url + "getNodesinFarm", params = data).json()
+		for cluster in getNodesinFarm:
+			data2 = {
+				'clusternodeid': cluster['clusternodeid']
+			}
+			getSensorsinCluster = requests.get(url=url + "getSensorsinCluster", params=data2).json()
+			getSensorsinClusterDict[cluster['clusternodeid']] = getSensorsinCluster
 	except:
 		print("allfarmersmaps error")
 
 	return render(request, 'main/farmermapdetails.html', {"farmname": farmname,
 														  "farmid": farmid,
 														  "getFarmbyID": getFarmbyID,
-														  "getNodesinFarm": getNodesinFarm
+														  "getNodesinFarm": getNodesinFarm,
+                                                       	  "getSensorsinClusterDict": getSensorsinClusterDict
 														  })
 
 def adminmapdetails(request, farmname='', farmid=''):
@@ -224,9 +231,9 @@ def allusers(request):
 												  'farmDictionary': farmDictionary})
 
 
-def allfarms(request, networkname=''):
+def allfarms(request, networkid=''):
 	data = {
-		'networkID': networkname
+		'networkID': networkid
 	}
 
 	try:
@@ -236,7 +243,7 @@ def allfarms(request, networkname=''):
 		print("getFarmsInNetwork error")
 	print(getFarmsInNetwork)
 
-	return render(request, 'main/allfarms.html', {"networkname": networkname,
+	return render(request, 'main/allfarms.html', {"networkid": networkid,
 												  "getNetworkbyID": getNetworkbyID,
 												  "getFarmsInNetwork": getFarmsInNetwork})
 
@@ -313,17 +320,29 @@ def deleteSensor(request, sensorid=''):
 
 	return render(request, 'main/deleteSensor.html', {'form': form, 'sensorid': sensorid})
 
-def deleteNetwork(request):
+
+def deleteNetwork(request, networkid=''):
 	if request.method == 'POST':
 		form = NetworkDeletionForm(request.POST)
 		if form.is_valid():
-			#api call to delete NewNetwork
-			messages.success(request, f'Network has been deleted')
+			data = {
+				'networkID': networkid,
+			}
+
+			try:
+				response = requests.post(url=url + "deleteNetworkbyID", data=data)
+				if response.text.status == "200":
+					messages.success(request, f'Network created!')
+				else:
+					messages.warning(request, f'Uh oh, there was a problem deleting your network.  Please try again later.')
+			except:
+				messages.warning(request, f'Uh oh, there was a problem deleting your network.  Please try again later.')
+
 			return redirect('main-home')
 	else:
 		form = NetworkDeletionForm()
 
-	return render(request, 'main/deleteNetwork.html', {'form': form})
+	return render(request, 'main/deleteNetwork.html', {'form': form, 'networkID': networkid})
 
 
 def createNetwork(request):
@@ -361,13 +380,16 @@ def createNetwork(request):
 def home(request, id=''):
 	try:
 		getFarmTotalwithType = requests.get(urllib.parse.urljoin(url, "getFarmTotalwithType"), timeout=3).json()
+		getSensorTotalwithType = requests.get(urllib.parse.urljoin(url, "getSensorTotalwithType"), timeout=3).json()
 		getAllNetwork = requests.get(urllib.parse.urljoin(url, "getAllNetwork"), timeout=3).json()
 		getAllNetworkHeath = requests.get(urllib.parse.urljoin(url, "getAllNetworkHeath"), timeout=3).json()
 		getFarmsTotal = requests.get(urllib.parse.urljoin(url, "getFarmTotal"), timeout=3).json()
 		getUsersTotal = len(User.objects.all())
-		getSensorsTotal = 15
+		getSensorsTotal = requests.get(urllib.parse.urljoin(url, "getSensorTotal"), timeout=3).json()
+
 	except: 
 		getFarmTotalwithType = "error"
+		getSensorTotalwithType = "error"
 		getAllNetwork = "error"
 		getAllNetworkHeath = "error"
 		getFarmsTotal = "error"
@@ -375,156 +397,10 @@ def home(request, id=''):
 		getSensorsTotal = "error"
 
 	return render(request, 'main/home.html', {"getFarmTotalwithType": getFarmTotalwithType,
+                                           	  "getSensorTotalwithType": getSensorTotalwithType,
 											  "getAllNetwork": getAllNetwork,
 											  "getAllNetworkHeath": getAllNetworkHeath,
 											  "getFarmsTotal": getFarmsTotal,
 											  "getUsersTotal": getUsersTotal,
 											  "getSensorsTotal": getSensorsTotal
 											  })
-
-def GetFarms(request):
-	value = {}
-	username = request.user.username
-
-	if username=="davidpmontes":
-		value = {
-			"Farms": [{
-				"ID": 123,
-				"Name": "MilpitasFarm",
-				"Type": "Apple",
-				"Lat": 37.431315,
-				"Lon": -121.945802
-			}, {
-				"ID": 456,
-				"Name": "WestFarm",
-				"Type": "Strawberry",
-				"Lat": 37.302925,
-				"Lon": -122.019987
-			}, {
-				"ID": 789,
-				"Name": "AndersonLakeFarm",
-				"Type": "Watermelon",
-				"Lat": 37.191506,
-				"Lon": -121.609035
-			}]
-		}
-	elif username=="johndoe":
-		value = {
-			"Farms": [{
-				"ID": 123,
-				"Name": "MilpitasFarm",
-				"Type": "Apple",
-				"Lat": 37.431315,
-				"Lon": -121.945802
-			}]
-		}
-	return value
-
-def GetFarmNodes(farmname):
-	if farmname=="WestFarm":
-		value = {
-			"ClusterNodes": [{
-				"ID": 123,
-				"Status": "Active",
-				"Lat": 35.51,
-				"Lon": -120.51,
-				"SensorNodes": [{
-						"ID": 1,
-						"Status": "Active",
-						"Lat": 35.52,
-						"Lon": -120.51
-					}, {
-						"ID": 2,
-						"Status": "Active",
-						"Lat": 35.51,
-						"Lon": -120.5
-					},
-					{
-						"ID": 3,
-						"Status": "InActive",
-						"Lat": 35.5,
-						"Lon": -120.5
-					}
-				]
-			}, {
-				"ID": 456,
-				"Status": "Active",
-				"Lat": 35.42,
-				"Lon": -120.42,
-				"SensorNodes": [{
-						"ID": 4,
-						"Status": "Active",
-						"Lat": 35.42,
-						"Lon": -120.4
-					}, {
-						"ID": 5,
-						"Status": "Active",
-						"Lat": 35.42,
-						"Lon": -120.44
-					},
-					{
-						"ID": 6,
-						"Status": "Active",
-						"Lat": 35.41,
-						"Lon": -120.42
-					}
-				]
-			}]
-		}
-	elif farmname=="MilpitasFarm":
-		value = {
-			"ClusterNodes": [{
-				"ID": 123,
-				"Status": "Active",
-				"Lat": 35.51,
-				"Lon": -120.51,
-				"SensorNodes": [{
-						"ID": 1,
-						"Status": "Active",
-						"Lat": 35.52,
-						"Lon": -120.51
-					}
-				]
-			}, {
-				"ID": 456,
-				"Status": "Active",
-				"Lat": 35.42,
-				"Lon": -120.42,
-				"SensorNodes": [{
-						"ID": 4,
-						"Status": "Active",
-						"Lat": 35.42,
-						"Lon": -120.4
-					}
-				]
-			}]
-		}
-	elif farmname=="AndersonLakeFarm":
-		value = {
-			"ClusterNodes": [{
-				"ID": 123,
-				"Status": "Active",
-				"Lat": 35.51,
-				"Lon": -122.51,
-				"SensorNodes": [{
-						"ID": 1,
-						"Status": "Active",
-						"Lat": 35.52,
-						"Lon": -120.51
-					}
-				]
-			}, {
-				"ID": 456,
-				"Status": "Active",
-				"Lat": 35.42,
-				"Lon": -120.42,
-				"SensorNodes": [{
-						"ID": 4,
-						"Status": "Active",
-						"Lat": 35.32,
-						"Lon": -121.4
-					}
-				]
-			}]
-		}
-	return value

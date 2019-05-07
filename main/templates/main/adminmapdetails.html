@@ -32,12 +32,43 @@
                 <div id="NodeInspector" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 </div>
             </div>
+            <div class="row">
+                <div id="wendata" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="container-fluid">
+                        <h1 class="h2">Data Visualization</h1>
+                            <div class="row">
+                                <div class="btn-toolbar mb-2 mb-md-0">
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-primary active">
+                                            <input type="radio" name="options" id="option1" autocomplete="off"> Daily
+                                        </label>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" id="option2" autocomplete="off"> Weekly
+                                        </label>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" id="option3" autocomplete="off"> Monthly
+                                        </label>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" id="option4" autocomplete="off"> Yearly
+                                        </label>
+                                    </div>
+                                </div>
+                            
+                                <canvas class="my-4 w-100" id="myChart" width="900" height="380">
+                                </canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 {% include "main/justnodeinspector.html" %}
-{% include "main/justmap.html" %}
+{% include "main/justmapadmin.html" %}
+{% include "main/datavisualization.html" %}
 
 {% endblock content %}
+
 

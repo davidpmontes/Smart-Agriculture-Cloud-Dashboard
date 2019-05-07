@@ -11,15 +11,15 @@
 
 	function initMap()
 	{
-        displayInfo = {{ displayInfo | safe}}
+        getFarmbyUserID = {{ getFarmbyUserID | safe}}
 
 		farmLat = 35.5;
-		farmlon = -120;
+		farmLon = -120;
 
-		if (displayInfo.length > 0)
+		if (getFarmbyUserID.length > 0)
 		{
-			farmLat = displayInfo[0].lat;
-			farmLon = displayInfo[0].lon;
+			farmLat = getFarmbyUserID[0].lat;
+			farmLon = getFarmbyUserID[0].lon;
 		}
 
 		var mapOptions = {
@@ -37,9 +37,9 @@
 				addMarker({coords: event.latLng});
 		});
 
-		for (var i = 0; i < displayInfo.length; i++)
+		for (var i = 0; i < getFarmbyUserID.length; i++)
 		{
-			AddNode(displayInfo[i]);
+			AddNode(getFarmbyUserID[i]);
 		}
 
 		function AddNode(farm)
