@@ -48,6 +48,14 @@
 
 					html += '<td>'
 
+					html += '<a href="' + "#" + '">'
+					html += 	'<button class="btn btn-default btn-primary" type="button">'
+					html +=			'<div>'
+					html +=				'Data'
+					html += 		'</div>'
+					html += 	'</button>'
+					html += '</a>'
+
 					html += '<a href="' + "{% url 'main-addSensor' sensornodeid=12345 %}".replace('12345', sensornode.sensornodeid) + '">'
 					html += 	'<button class="btn btn-default btn-primary" type="button">'
 					html +=			'<div>'

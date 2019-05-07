@@ -1,24 +1,65 @@
 {% load static %}
 
 <div class="container">
+	<div class="row">
+	    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+	        <div class="davidboxshadows">
+	            <div class="card">
+	                <div class="card-body bg-primary text-white text-center">
+                        <h2 id="TotalFarms">2</h2>
+	                    <h2>Farms</h2>
+	                </div>
+	            </div>
+	        </div>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="davidboxshadows">
+                <div class="card">
+                    <div class="card-body bg-warning text-white text-center">
+                        <h2 id="TotalSensors">15</h2>
+                        <h2>Sensors</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="davidboxshadows">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        Active Sensors by Farm
+                    </div>
+                    <div class="card-body">
+                        <div id="sensorHealthByFarm"></div>
+                        </li>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    Sensors Status
-                </div>
-                <div class="card-body">
-                    <div id="chart_div1"></div></li>
+            <div class="davidboxshadows">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Sensors Status
+                    </div>
+                    <div class="card-body">
+                        <div id="sensorsstatus"></div></li>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-            <div class="card">
-                <div class="card-header bg-success text-white">
-                    Farms Status
-                </div>
-                <div class="card-body">
-                        <div id="chart_div2"></div></li>
+            <div class="davidboxshadows">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        Farms Status
+                    </div>
+                    <div class="card-body">
+                            <div id="farmsstatus"></div></li>
+                    </div>
                 </div>
             </div>
         </div>
@@ -28,9 +69,7 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script type="text/javascript">
-    google.charts.load("current", {packages:["corechart"]});
-    google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
+    function drawChart_sensorsstatus() {
     var data = google.visualization.arrayToDataTable([
         ['Task', 'Hours per Day'],
         ['Up Sensors',     489],
@@ -42,15 +81,11 @@
         pieHole: 0.4,
     };
 
-    var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
+    var chart = new google.visualization.PieChart(document.getElementById('sensorsstatus'));
     chart.draw(data, options);
     }
-</script>
 
-<script type="text/javascript">
-    google.charts.load("current", {packages:["corechart"]});
-    google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
+    function drawChart_farmsstatus() {
     var data = google.visualization.arrayToDataTable([
         ['Task', 'Hours per Day'],
         ['Up Farms',     94],
@@ -62,8 +97,63 @@
         pieHole: 0.4,
     };
 
-    var chart = new google.visualization.PieChart(document.getElementById('chart_div2'));
+    var chart = new google.visualization.PieChart(document.getElementById('farmsstatus'));
     chart.draw(data, options);
+    }
+
+    function drawChart_sensorHealthByFarm() {
+
+		farmsList = [['Farm', 'Percentage']];
+
+        for (var key in getAllFarmHeathbyUser){
+            farmsList.push([key, getAllFarmHeathbyUser[key] * 100]);
+        }
+
+        var data = google.visualization.arrayToDataTable(farmsList);
+
+        var options = {
+			bars: 'horizontal', // Required for Material Bar Charts.
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('sensorHealthByFarm'));
+        chart.draw(data, options);
+    };
+
+	var charts = "done";
+	$(window).resize(function() {
+		if(charts == "done"){
+			charts = "waiting";
+			setTimeout(function(){
+				drawAllCharts();
+				charts = "done"
+			}
+			,100);
+		}
+	});
+
+    function drawAllCharts() {
+        drawChart_sensorHealthByFarm();
+        drawChart_sensorsstatus();
+        drawChart_farmsstatus();
+    }
+</script>
+
+<script>
+
+    getAllFarmHeathbyUser = {{ getAllFarmHeathbyUser | safe }}
+
+    if (getAllFarmHeathbyUser == "error")
+    {
+
+    }
+    else
+    {
+        google.charts.load("current", {packages:["corechart"]});
+        google.charts.setOnLoadCallback(drawChart_sensorsstatus);
+        google.charts.load("current", {packages:["corechart"]});
+        google.charts.setOnLoadCallback(drawChart_farmsstatus);
+        google.charts.load('current', {'packages':['bar']});
+        google.charts.setOnLoadCallback(drawChart_sensorHealthByFarm);
     }
 </script>
 

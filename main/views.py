@@ -334,9 +334,9 @@ def deleteNetwork(request, networkid=''):
 				if response.text.status == "200":
 					messages.success(request, f'Network created!')
 				else:
-					messages.warning(request, f'Uh oh, there was a problem deleting your network.  Please try again later.')
+					messages.warning(request, response.text)
 			except:
-				messages.warning(request, f'Uh oh, there was a problem deleting your network.  Please try again later.')
+				messages.warning(request, response.text)
 
 			return redirect('main-home')
 	else:
@@ -378,6 +378,10 @@ def createNetwork(request):
 
 
 def home(request, id=''):
+	data = {
+		'userID': request.user.username,
+	}
+
 	try:
 		getFarmTotalwithType = requests.get(urllib.parse.urljoin(url, "getFarmTotalwithType"), timeout=3).json()
 		getSensorTotalwithType = requests.get(urllib.parse.urljoin(url, "getSensorTotalwithType"), timeout=3).json()
@@ -386,6 +390,8 @@ def home(request, id=''):
 		getFarmsTotal = requests.get(urllib.parse.urljoin(url, "getFarmTotal"), timeout=3).json()
 		getUsersTotal = len(User.objects.all())
 		getSensorsTotal = requests.get(urllib.parse.urljoin(url, "getSensorTotal"), timeout=3).json()
+		getAllFarmHeathbyUser = requests.get(url=url + "getAllFarmHeathbyUser", params=data).json()
+
 
 	except: 
 		getFarmTotalwithType = "error"
@@ -395,6 +401,7 @@ def home(request, id=''):
 		getFarmsTotal = "error"
 		getUsersTotal = "error"
 		getSensorsTotal = "error"
+		getAllFarmHeathbyUser = "error"
 
 	return render(request, 'main/home.html', {"getFarmTotalwithType": getFarmTotalwithType,
                                            	  "getSensorTotalwithType": getSensorTotalwithType,
@@ -402,5 +409,6 @@ def home(request, id=''):
 											  "getAllNetworkHeath": getAllNetworkHeath,
 											  "getFarmsTotal": getFarmsTotal,
 											  "getUsersTotal": getUsersTotal,
-											  "getSensorsTotal": getSensorsTotal
+											  "getSensorsTotal": getSensorsTotal,
+                                           	  "getAllFarmHeathbyUser": getAllFarmHeathbyUser
 											  })

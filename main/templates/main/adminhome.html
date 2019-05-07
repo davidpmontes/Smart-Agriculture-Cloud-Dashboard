@@ -190,19 +190,19 @@
 
     function drawChart_sensorHealthByNetwork() {
 
-		networksList = [['Network', 'Percentage']];
+			networksList = [['Network', 'Percentage']];
 
-		for (i = 0; i < getAllNetwork.length; i++)
-		{
-			networkID = getAllNetwork[i].networkID
-			networksList.push([networkID, getAllNetworkHeath[networkID] * 100]);
-		}
+			for (i = 0; i < getAllNetwork.length; i++)
+			{
+				networkID = getAllNetwork[i].networkID
+				networksList.push([networkID, getAllNetworkHeath[networkID] * 100]);
+			}
 
-        var data = google.visualization.arrayToDataTable(networksList);
+      var data = google.visualization.arrayToDataTable(networksList);
 
-        var options = {
-			bars: 'horizontal', // Required for Material Bar Charts.
-        };
+      var options = {
+				bars: 'horizontal', // Required for Material Bar Charts.
+      };
 
         var chart = new google.charts.Bar(document.getElementById('sensorHealthByNetwork'));
         chart.draw(data, options);

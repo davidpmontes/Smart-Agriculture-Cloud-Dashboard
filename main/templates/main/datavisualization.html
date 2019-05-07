@@ -33,10 +33,10 @@ element4.change= function(){
 };
 
 function plot (s_id) {
-    var targetUrl = 'http://52.53.157.50:8080/sensor?sensor_id=weekly';
+    var targetUrl = 'http://52.53.157.50:8080/sensor';
     var url = new URL( targetUrl);
-    //var params = {'sensor_id': s_id.toString()};
-    //url.search = new URLSearchParams(params)
+    var params = {'sensor_id': s_id.toString()};
+    url.search = new URLSearchParams(params)
     var l =[];
     var v =[];
 
