@@ -6,9 +6,17 @@ var element1 = document.getElementById("option1");
 var element2 = document.getElementById("option2");
 var element3 = document.getElementById("option3");
 var element4 = document.getElementById("option4");
+var DataVisualizationTitle = document.getElementById("DataVisualizationTitle");
 
 plot("daily");
 window.resizeBy(0,0);
+
+function DataButtonClicked(id) {
+    DataVisualizationTitle.innerHTML = "Data Visualization: " + id;
+    myChart.destroy();
+    plot(id);
+    myChart.update();
+}
 
 element1.change= function(){
     myChart.destroy();

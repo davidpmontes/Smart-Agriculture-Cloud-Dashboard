@@ -239,9 +239,9 @@ def allfarms(request, networkid=''):
 	try:
 		getNetworkbyID = requests.get(url = url + "getNetworkbyID", params = data).json()
 		getFarmsInNetwork = requests.get(url = url + "getFarmsInNetwork", params = data).json()
+		print(getFarmsInNetwork)
 	except:
 		print("getFarmsInNetwork error")
-	print(getFarmsInNetwork)
 
 	return render(request, 'main/allfarms.html', {"networkid": networkid,
 												  "getNetworkbyID": getNetworkbyID,
@@ -321,6 +321,28 @@ def deleteSensor(request, sensorid=''):
 	return render(request, 'main/deleteSensor.html', {'form': form, 'sensorid': sensorid})
 
 
+def deleteFarm(request, farmid=''):
+	if request.method == 'POST':
+		form = SensorDeletionForm(request.POST)
+		if form.is_valid():
+			data = {
+				'farmID': farmid,
+			}
+
+			try:
+				requests.post(url=url + "deleteFarm", data=data)
+				messages.success(request, f'Farm deleted')
+			except:
+				messages.error(
+					request, f'Uh oh, there was a problem deleting your farm.  Please try again later.')
+
+			return redirect('main-home')
+	else:
+		form = SensorDeletionForm()
+
+	return render(request, 'main/deleteFarm.html', {'form': form, 'farmID': farmid})
+
+
 def deleteNetwork(request, networkid=''):
 	if request.method == 'POST':
 		form = NetworkDeletionForm(request.POST)
@@ -391,6 +413,7 @@ def home(request, id=''):
 		getUsersTotal = len(User.objects.all())
 		getSensorsTotal = requests.get(urllib.parse.urljoin(url, "getSensorTotal"), timeout=3).json()
 		getAllFarmHeathbyUser = requests.get(url=url + "getAllFarmHeathbyUser", params=data).json()
+		getSensorHealth = requests.get(url=url + "getSensorHealth").json()
 
 
 	except: 
@@ -402,6 +425,7 @@ def home(request, id=''):
 		getUsersTotal = "error"
 		getSensorsTotal = "error"
 		getAllFarmHeathbyUser = "error"
+		getSensorHealth = "error"
 
 	return render(request, 'main/home.html', {"getFarmTotalwithType": getFarmTotalwithType,
                                            	  "getSensorTotalwithType": getSensorTotalwithType,
@@ -410,5 +434,6 @@ def home(request, id=''):
 											  "getFarmsTotal": getFarmsTotal,
 											  "getUsersTotal": getUsersTotal,
 											  "getSensorsTotal": getSensorsTotal,
-                                           	  "getAllFarmHeathbyUser": getAllFarmHeathbyUser
+                                           	  "getAllFarmHeathbyUser": getAllFarmHeathbyUser,
+                                           	  "getSensorHealth": getSensorHealth
 											  })

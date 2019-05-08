@@ -44,7 +44,7 @@
 	</div>
 
 	<div class="row">
-		<div class="col-12">
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
 			<div class="davidboxshadows">
 				<div class="card">
 					<div class="card-header bg-success text-white">
@@ -52,6 +52,20 @@
 					</div>
 					<div class="card-body">
 						<div id="sensorHealthByNetwork"></div></li>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+			<div class="davidboxshadows">
+				<div class="card">
+					<div class="card-header bg-success text-white">
+						Sensors Status
+					</div>
+					<div class="card-body">
+						<div id="sensorsStatus"></div>
+						</li>
 					</div>
 				</div>
 			</div>
@@ -86,19 +100,8 @@
 	</div>
 	
 	<div class="row">
-		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-			<div class="davidboxshadows">
-				<div class="card">
-					<div class="card-header bg-success text-white">
-						Sensors Status
-					</div>
-					<div class="card-body">
-						<div id="sensorsStatus"></div></li>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+
+		<!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
 			<div class="davidboxshadows">
 				<div class="card">
 					<div class="card-header bg-primary text-white">
@@ -121,7 +124,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </div>
 
@@ -131,8 +134,8 @@
 	function drawChart_sensorsStatus() {
 		var data = google.visualization.arrayToDataTable([
 			['Task', 'Hours per Day'],
-			['Up',     489],
-			['Down',      5]
+			['Up', getSensorHealth],
+			['Down', 1 - getSensorHealth]
 		]);
 
 		var options = {
@@ -148,45 +151,45 @@
 		chart.draw(data, options);
 	}
 
-	function drawChart_farmsStatus() {
-		var data = google.visualization.arrayToDataTable([
-			['Task', 'Hours per Day'],
-			['Up',     94],
-			['Down',      2]
-		]);
+	// function drawChart_farmsStatus() {
+	// 	var data = google.visualization.arrayToDataTable([
+	// 		['Task', 'Hours per Day'],
+	// 		['Up',     94],
+	// 		['Down',      2]
+	// 	]);
 
-		var options = {
-			colors: ['green', 'red'],
-			pieHole: 0,
-			chartArea: {
-				width: '100%',
-				height: '100%'
-			}
-		};
+	// 	var options = {
+	// 		colors: ['green', 'red'],
+	// 		pieHole: 0,
+	// 		chartArea: {
+	// 			width: '100%',
+	// 			height: '100%'
+	// 		}
+	// 	};
 
-		var chart = new google.visualization.PieChart(document.getElementById('farmsStatus'));
-		chart.draw(data, options);
-	}
+	// 	var chart = new google.visualization.PieChart(document.getElementById('farmsStatus'));
+	// 	chart.draw(data, options);
+	// }
 
-	function drawChart_networksStatus() {
-		var data = google.visualization.arrayToDataTable([
-			['Task', 'Hours per Day'],
-			['Up',     6],
-			['Down',      1]
-		]);
+	// function drawChart_networksStatus() {
+	// 	var data = google.visualization.arrayToDataTable([
+	// 		['Task', 'Hours per Day'],
+	// 		['Up',     6],
+	// 		['Down',      1]
+	// 	]);
 
-		var options = {
-			colors: ['green', 'red'],
-			pieHole: 0,
-			chartArea: {
-				width: '100%',
-				height: '100%'
-			}
-		};
+	// 	var options = {
+	// 		colors: ['green', 'red'],
+	// 		pieHole: 0,
+	// 		chartArea: {
+	// 			width: '100%',
+	// 			height: '100%'
+	// 		}
+	// 	};
 
-		var chart = new google.visualization.PieChart(document.getElementById('networksStatus'));
-		chart.draw(data, options);
-	}
+	// 	var chart = new google.visualization.PieChart(document.getElementById('networksStatus'));
+	// 	chart.draw(data, options);
+	// }
 
     function drawChart_sensorHealthByNetwork() {
 
@@ -275,8 +278,8 @@
 
 	function drawAllCharts() {
 		drawChart_sensorsStatus();
-		drawChart_farmsStatus();
-		drawChart_networksStatus();
+		// drawChart_farmsStatus();
+		// drawChart_networksStatus();
 		drawChart_sensorHealthByNetwork();
 		drawChart_numberofsensorsByType();
 		drawChart_numberoffarmsByType();
@@ -291,6 +294,7 @@
 	getSensorsTotal = {{ getSensorsTotal | safe }}
 	getFarmTotalwithType = {{ getFarmTotalwithType | safe }}
   getSensorTotalwithType = {{ getSensorTotalwithType | safe }}
+	getSensorHealth = {{ getSensorHealth | safe }}
 
 
 	if (getAllNetwork == "error")
@@ -306,10 +310,10 @@
 
 		google.charts.load("current", {packages:["corechart"]});
 		google.charts.setOnLoadCallback(drawChart_sensorsStatus);
-		google.charts.load("current", {packages:["corechart"]});
-		google.charts.setOnLoadCallback(drawChart_farmsStatus);
-		google.charts.load("current", {packages:["corechart"]});
-		google.charts.setOnLoadCallback(drawChart_networksStatus);
+		// google.charts.load("current", {packages:["corechart"]});
+		// google.charts.setOnLoadCallback(drawChart_farmsStatus);
+		// google.charts.load("current", {packages:["corechart"]});
+		// google.charts.setOnLoadCallback(drawChart_networksStatus);
 		google.charts.load('current', {'packages':['bar']});
     google.charts.setOnLoadCallback(drawChart_sensorHealthByNetwork);
 		google.charts.load('current', {'packages':['bar']});

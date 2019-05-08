@@ -1,7 +1,7 @@
 {% load static %}
 
 <div class="container">
-	<div class="row">
+	<!-- <div class="row">
 	    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 	        <div class="davidboxshadows">
 	            <div class="card">
@@ -22,9 +22,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="row">
-        <div class="col-12">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
             <div class="davidboxshadows">
                 <div class="card">
                     <div class="card-header bg-success text-white">
@@ -37,21 +37,23 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
             <div class="davidboxshadows">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
                         Sensors Status
                     </div>
                     <div class="card-body">
-                        <div id="sensorsstatus"></div></li>
+                        <div id="sensorsstatus"></div>
+                        </li>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    </div>
+    <!-- <div class="row"> -->
+
+        <!-- <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <div class="davidboxshadows">
                 <div class="card">
                     <div class="card-header bg-success text-white">
@@ -62,8 +64,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div> -->
+    <!-- </div> -->
 </div>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -72,14 +74,18 @@
     function drawChart_sensorsstatus() {
     var data = google.visualization.arrayToDataTable([
         ['Task', 'Hours per Day'],
-        ['Up Sensors',     489],
-        ['Down Sensors',      5]
+        ['Up',     489],
+        ['Down',      5]
     ]);
 
-    var options = {
-        colors: ['green', 'red'],
-        pieHole: 0.4,
-    };
+	var options = {
+		colors: ['green', 'red'],
+		pieHole: 0,
+		chartArea: {
+		width: '100%',
+		height: '100%'
+		}
+		};
 
     var chart = new google.visualization.PieChart(document.getElementById('sensorsstatus'));
     chart.draw(data, options);
@@ -88,14 +94,18 @@
     function drawChart_farmsstatus() {
     var data = google.visualization.arrayToDataTable([
         ['Task', 'Hours per Day'],
-        ['Up Farms',     94],
-        ['Down Farms',      2]
+        ['Up',     94],
+        ['Down',      2]
     ]);
 
-    var options = {
-        colors: ['green', 'red'],
-        pieHole: 0.4,
-    };
+		var options = {
+		colors: ['green', 'red'],
+		pieHole: 0,
+		chartArea: {
+		width: '100%',
+		height: '100%'
+		}
+		};
 
     var chart = new google.visualization.PieChart(document.getElementById('farmsstatus'));
     chart.draw(data, options);
@@ -103,7 +113,7 @@
 
     function drawChart_sensorHealthByFarm() {
 
-		farmsList = [['Farm', 'Percentage']];
+		farmsList = [['Farm', '%']];
 
         for (var key in getAllFarmHeathbyUser){
             farmsList.push([key, getAllFarmHeathbyUser[key] * 100]);

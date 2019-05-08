@@ -23,6 +23,15 @@
                         <button type="button" class="btn btn-primary btn-block">Add Cluster Node</button>
                     </a>
                 </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                    <a href="{% url 'main-deleteFarm' farmid=farmid %}">
+                        <button class="btn btn-default btn-primary" type="button">
+                            <div>
+                                Delete Farm
+                            </div>
+                        </button>
+                    </a>
+                </div>
             </div>
             <div class="row">
                 <div id="map" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -35,7 +44,7 @@
             <div class="row">
                 <div id="wendata" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="container-fluid">
-                        <h1 class="h2">Data Visualization</h1>
+                        <h1 class="h2" id="DataVisualizationTitle">Data Visualization</h1>
                             <div class="row">
                                 <div class="btn-toolbar mb-2 mb-md-0">
                                     <div class="btn-group-toggle" data-toggle="buttons">

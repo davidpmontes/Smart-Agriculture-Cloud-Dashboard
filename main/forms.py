@@ -49,12 +49,13 @@ class FarmEditForm(forms.Form):
 	networkID = forms.ChoiceField(label='Network ID')
 	name = forms.CharField(label='Farm name', max_length=100)
 	farmType = forms.ChoiceField(label='Farm type', choices=FARM_TYPES)
-	userID = forms.CharField(label='Users email address', max_length=100)
+	userID = forms.CharField(label='Username', max_length=100)
 	lat = forms.CharField(label='Latitude', max_length=100)
 	lon = forms.CharField(label='Longitude', max_length=100)
 
 	def __init__(self, *args, **kwargs):
 		super(FarmEditForm, self).__init__(*args, **kwargs)
+		self.allNetworkID = []
 		try:
 			getAllNetworkID = requests.get(url = url + "getAllNetwork").json()
 			for n in getAllNetworkID:

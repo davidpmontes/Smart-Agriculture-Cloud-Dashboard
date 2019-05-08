@@ -39,13 +39,11 @@
 					html +='<td>' + sensorlist[j]['status'] + '</td>'
 
 					html += '<td>'
-					html += '<a href="' + "#" + '">'
-					html += 	'<button class="btn btn-default btn-primary" type="button">'
+					html += 	'<button class="btn btn-default btn-primary" onclick="DataButtonClicked(12345)" type="button">'.replace('12345', "'" + sensorlist[j]['sensorid'] + "'")
 					html +=			'<div>'
 					html +=				'Data'
 					html += 		'</div>'
 					html += 	'</button>'
-					html += '</a>'
 					html += '</td>'
 
 					html +='</tr>'
@@ -90,13 +88,11 @@
 				html += '<td>' + sensorlist[j]['status'] + '</td>'
 
 				html += '<td>'
-				html += '<a href="' + "#" + '">'
-				html += 	'<button class="btn btn-default btn-primary" type="button">'
+				html += 	'<button class="btn btn-default btn-primary" onclick="DataButtonClicked(12345)" type="button">'.replace('12345', "'" + sensorlist[j]['sensorid'] + "'")
 				html +=			'<div>'
 				html +=				'Data'
 				html += 		'</div>'
 				html += 	'</button>'
-				html += '</a>'
 				html += '</td>'
 
 				html += '</tr>'
