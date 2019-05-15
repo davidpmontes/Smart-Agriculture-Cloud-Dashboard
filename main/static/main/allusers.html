@@ -1,0 +1,55 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="davidboxshadows">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      All Users
+    </div>
+    <div class="card-body">
+        <table id="allusers" class="table table-light table-bordered table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>Username</th>
+                    <th>Farms</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody class="table-striped">
+
+                {% for username, farmlist in farmDictionary.items %} 
+                    {% if farmlist %}
+                        {% for f in farmlist %}
+                            <tr>
+                                <td>{{ username }}</td>
+                                <td>
+                                    <a href="{% url 'main-adminmapdetails' f.name f.farmID %}">{{ f.name }}</a>
+                                </td>
+                                <td>{{ f.type }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>{{ username }}</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+  </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#allusers').DataTable( {
+            "pagingType": "full_numbers"
+        } );
+    } );
+</script>
+
+{% endblock content %}

@@ -18,7 +18,7 @@ STATUS_TYPES = (
     ('Inactive', 'Inactive')
 )
 
-url = "http://ec2-3-81-30-51.compute-1.amazonaws.com:8080/"
+url = "http://ec2-3-81-127-12.compute-1.amazonaws.com:8080/"
 
 
 class SensorForm(forms.Form):

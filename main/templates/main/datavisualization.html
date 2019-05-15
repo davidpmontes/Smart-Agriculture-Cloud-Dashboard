@@ -33,15 +33,17 @@ element2.change= function(){
 element3.change= function(){
     myChart.destroy();
     plot("monthly");
+    myChart.update();
 };
 
 element4.change= function(){
     myChart.destroy();
     plot("yearly");
+    myChart.update();
 };
 
 function plot (s_id) {
-    var targetUrl = 'http://52.53.157.50:8080/sensor';
+    var targetUrl = 'http://54.67.113.246:8080/sensors';
     var url = new URL( targetUrl);
     var params = {'sensor_id': s_id.toString()};
     url.search = new URLSearchParams(params)
@@ -55,17 +57,27 @@ function plot (s_id) {
     pro.then(response => response.json())
     .catch(error => console.error('Error:', error))
     .then(function(response){
-        for ( var i = 0; i < response.data.length; i++){
-                l.push(response.data[i].date);
-                v.push(response.data[i].value);
+        console.log("before...");
+        console.log(response);
+        for ( var i = 0; i < response.length; i++){
+            console.log(response[i].sensor_id);
+            if (response[i].sensor_id == s_id) {
+                response = response[i].data;
+                break; 
+            }
+        }
+        console.log("after...");
+        console.log(response);
+
+        for ( var i = 0; i < response.length; i++){
+                l.push(response[i].date);
+                v.push(response[i].value);
             }
         });
         // Graphs
         var ctx = document.getElementById('myChart').getContext("2d");
         ctx.canvas.width = 300;
         ctx.canvas.height = 180;
-
-        console.log(l);
         window.resizeBy(0,0);
         myChart = new Chart(ctx, {
             type: 'line',

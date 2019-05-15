@@ -5,6 +5,8 @@ urlpatterns = [
 	path('', views.home, name='main-home'),
 	path('<int:id>', views.home, name='main-home'),
 
+	path('billing/', views.billing, name='main-billing'),
+
 	path('allfarmersmaps/', views.allfarmersmaps, name='main-allfarmersmaps'),
 	path('allfarmersmaps/<str:username>', views.allfarmersmaps, name='main-allfarmersmaps'),
 
@@ -30,5 +32,7 @@ urlpatterns = [
 	path('deleteSensor/<str:sensorid>', views.deleteSensor, name='main-deleteSensor'),
 	path('deleteSensorNode/<str:sensornodeid>', views.deleteSensorNode, name='main-deleteSensorNode'),
 	path('deleteClusterNode/<str:clusternodeid>', views.deleteClusterNode, name='main-deleteClusterNode'),
+
+
 ]
 

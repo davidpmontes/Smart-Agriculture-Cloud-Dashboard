@@ -7,8 +7,7 @@ import urllib.parse
 from django.contrib.auth.models import User
 
 
-
-url = "http://ec2-3-81-30-51.compute-1.amazonaws.com:8080/"
+url = "http://ec2-3-81-127-12.compute-1.amazonaws.com:8080/"
 
 
 def editFarm(request, farmid=''):
@@ -212,6 +211,8 @@ def adminmapdetails(request, farmname='', farmid=''):
 														 "getFarmbyID": getFarmbyID,
 														 "getNodesinFarm": getNodesinFarm,
                                                       	 "getSensorsinClusterDict": getSensorsinClusterDict})
+def billing(request):
+	return render(request, 'main/billing.html')
 
 def allusers(request):
 	allusers = User.objects.all()
@@ -227,7 +228,7 @@ def allusers(request):
 		except:
 			print("all users error")
 	
-	return render(request, 'main/allUsers.html', {'allusers': allusers,
+	return render(request, 'main/allusers.html', {'allusers': allusers,
 												  'farmDictionary': farmDictionary})
 
 
@@ -353,10 +354,7 @@ def deleteNetwork(request, networkid=''):
 
 			try:
 				response = requests.post(url=url + "deleteNetworkbyID", data=data)
-				if response.text.status == "200":
-					messages.success(request, f'Network created!')
-				else:
-					messages.warning(request, response.text)
+				messages.success(request, f'Network deleted!')
 			except:
 				messages.warning(request, response.text)
 

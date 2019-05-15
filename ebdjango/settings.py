@@ -83,7 +83,24 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    },
+
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'sertlhip',
+    #     'USER': 'sertlhip',
+    #     'PASSWORD': 'lfWPkxR2lIQjgsxmRTRGzOyeQ00SGI8f',
+    #     'HOST': 'hansken.db.elephantsql.com',
+    #     'PORT': '5432'
+    # },
+
+    # 'nodes': {
+    #      'ENGINE': 'djongo',
+    #      'NAME': 'test',
+    #      'HOST' : 'mongodb+srv://davidpmontes_mongo:<ysysys25>@cluster0-cavd2.mongodb.net/test?retryWrites=true',
+    #      'USER' : 'davidpmontes_mongo',
+    #      'PASSWORD' : 'ysysys25'
+    # }
 }
 
 
@@ -124,9 +141,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-)
+STATIC_ROOT = 'static'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
