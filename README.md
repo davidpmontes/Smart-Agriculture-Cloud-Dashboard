@@ -7,8 +7,8 @@ https://www.youtube.com/watch?v=_C8QeGM8id8
 - Built front end statistics dashboard with Google Charts to monitor website and sensors.
 - Utilized : Django, Python, Javascript, Google Maps API, Google Charts API, AWS, MongoDB
 
-Team:
-David Montes
-Wen Li
-Xiaosa Yang
-Sijia Zong
+Team:\
+David Montes\
+Wen Li\
+Xiaosa Yang\
+Sijia Zong\
